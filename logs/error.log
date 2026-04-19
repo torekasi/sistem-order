@@ -1,0 +1,35 @@
+[2026-03-22 11:26:53] [INFO] Login berjaya | {"user_id":1,"email":"superadmin@sistemorder.com"}
+[2026-03-22 12:01:08] [INFO] Login berjaya | {"user_id":2,"email":"admin@sistemorder.com"}
+[2026-03-22 12:07:54] [INFO] Logout | {"user_id":2}
+[2026-03-22 12:08:42] [INFO] Login berjaya | {"user_id":2,"email":"admin@sistemorder.com"}
+[2026-03-22 12:22:55] [INFO] Login berjaya | {"user_id":2,"email":"admin@sistemorder.com"}
+[2026-03-22 12:42:03] [INFO] Logout | {"user_id":2}
+[2026-03-22 12:43:37] [INFO] Login berjaya | {"user_id":2,"email":"admin@sistemorder.com"}
+[2026-03-22 12:53:54] [INFO] Logout | {"user_id":2}
+[2026-03-22 12:54:28] [INFO] Login berjaya | {"user_id":1,"email":"superadmin@sistemorder.com"}
+[22-Mar-2026 13:01:41 Asia/Kuala_Lumpur] PHP Warning:  require(utils/Database.php): Failed to open stream: No such file or directory in /var/www/html/add_logo.php on line 4
+[22-Mar-2026 13:01:41 Asia/Kuala_Lumpur] PHP Fatal error:  Uncaught Error: Failed opening required 'utils/Database.php' (include_path='.:/usr/local/lib/php') in /var/www/html/add_logo.php:4
+Stack trace:
+#0 {main}
+  thrown in /var/www/html/add_logo.php on line 4
+[2026-03-22 14:26:21] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-22 15:38:24] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-22 15:43:49] [INFO] Login berjaya | {"user_id":1,"login_id":"superadmin@sistemorder.com"}
+[2026-03-22 16:12:39] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-22 17:37:30] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-22 18:18:09] [INFO] Login berjaya | {"user_id":1,"login_id":"superadmin@sistemorder.com"}
+[2026-03-22 18:49:53] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-22 19:28:21] [INFO] Login berjaya | {"user_id":1,"login_id":"superadmin@sistemorder.com"}
+[2026-03-22 19:53:38] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-22 19:59:00] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-22 20:08:24] [INFO] Logout | {"user_id":2}
+[2026-03-22 20:12:36] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-22 20:23:53] [INFO] Logout | {"user_id":2}
+[2026-03-22 20:24:23] [INFO] Login berjaya | {"user_id":1,"login_id":"superadmin@sistemorder.com"}
+[2026-03-22 20:29:12] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-22 20:29:51] [INFO] Logout | {"user_id":2}
+[2026-03-22 20:30:09] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-03-24 11:54:38] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-04-07 21:57:50] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}
+[2026-04-07 22:00:31] [INFO] Logout | {"user_id":2}
+[2026-04-19 16:39:22] [INFO] Login berjaya | {"user_id":2,"login_id":"admin@sistemorder.com"}

@@ -1,0 +1,68 @@
+# Docker Compose - Sistem Order
+
+services:
+  # PHP + Apache Application
+  app:
+    build: .
+    container_name: sistem-order-app
+    ports:
+      - "9090:80"
+    volumes:
+      - .:/var/www/html
+      - upload_data:/var/www/html/public/assets/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    networks:
+      - sistem-order-net
+    restart: unless-stopped
+
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: sistem-order-db
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: sistem_order
+      MYSQL_USER: sistem_user
+      MYSQL_PASSWORD: sistem_pass123
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot123"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - sistem-order-net
+    restart: unless-stopped
+
+  # phpMyAdmin (optional - for DB management)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: sistem-order-pma
+    ports:
+      - "9091:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root123
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - sistem-order-net
+    restart: unless-stopped
+
+volumes:
+  db_data:
+  upload_data:
+
+networks:
+  sistem-order-net:
+    driver: bridge
