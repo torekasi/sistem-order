@@ -162,10 +162,11 @@ class AuthController {
     private function redirectByRole(): void {
         $role = Security::currentUserRole();
         $url = match ($role) {
-            'admin'   => APP_URL . '/index.php?page=sales',
-            'staff'   => APP_URL . '/index.php?page=kitchen',
-            'buyer'   => APP_URL . '/index.php?page=grocery',
-            default   => APP_URL . '/index.php?page=menu',
+            'superadmin' => APP_URL . '/index.php?page=sales',
+            'admin'      => APP_URL . '/index.php?page=sales',
+            'staff'      => APP_URL . '/index.php?page=kitchen',
+            'buyer'      => APP_URL . '/index.php?page=grocery',
+            default      => APP_URL . '/index.php?page=menu',
         };
         header('Location: ' . $url);
         exit;

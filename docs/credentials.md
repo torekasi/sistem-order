@@ -2,16 +2,27 @@
 
 Senarai pengguna lalai (default) berserta peranan untuk log masuk ke dalam aplikasi Sistem Order.
 
-> **Kata Laluan Umum:** Semua akaun di bawah menggunakan kata laluan **`password`**
+## Access URLs
 
-| Peranan / Akses | Nama Pengguna / E-mel     | Kata Laluan | Keterangan Peranan                                                                           |
-| :-------------- | :------------------------ | :---------- | :------------------------------------------------------------------------------------------- |
-| **Super Admin** | superadmin@sistemorder.com | password    | Penguasa penuh sistem. Termasuk pentadbiran pengguna, konfigurasi tetapan utama, dan jualan. |
-| **Admin**       | admin@sistemorder.com      | password    | Kawalan utama ke atas menu, jualan (laporan bulanan/harian), senarai beli barang, dan dapur. |
-| **Staff**       | staff@sistemorder.com      | password    | Pekerja dapur atau operator "Walk-In". Hanya ada laluan ke monitor dapur dan muka Buat Order. |
-| **Buyer**       | ros@gmail.com              | password    | Individu pembeli bahan stok dapur (Pergi Pasar).                                             |
-| **Customer 1**  | siti@gmail.com             | password    | Akaun pembeli (pelanggan awam). Boleh lakukan pesanan, bayar, dan menjejak status.           |
-| **Customer 2**  | ali@gmail.com              | password    | Sama seperti di atas.                                                                        |
+| Service | URL |
+| --- | --- |
+| App | <http://localhost:9090> |
+| Admin login | <http://localhost:9090/admin> |
+| phpMyAdmin | <http://localhost:9091> |
+
+## Login Credentials
+
+> Kata laluan default untuk semua akaun: `password`
+
+| Peranan (Role) | Email |
+| --- | --- |
+| Super Admin | `superadmin@sistemorder.com` |
+| Admin | `admin@sistemorder.com` |
+| Staff | `staff@sistemorder.com` |
+| Customer | `siti@gmail.com` / `ali@gmail.com` |
+| Buyer | `ros@gmail.com` |
+
+
 
 ## Nota Keselamatan Penting
 - Di pelayan pengeluaran (production), sila pastikan anda **menukar kata laluan** bagi akaun Super Admin dan Admin serta-merta selepas instalasi! 

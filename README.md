@@ -31,3 +31,5 @@ Bagi menjalankan aplikasi ini di komputer anda, pastikan Docker dan Docker Compo
 ## Pangkalan Data
 
 Anda boleh merujuk kepada fail `database.sql` untuk melihat struktur pangkalan data (schema) yang digunakan di dalam sistem ini.
+
+
