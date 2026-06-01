@@ -104,6 +104,19 @@ class UserModel {
     }
 
     /**
+     * Padam pengguna
+     */
+    public function deleteUser(int $id): bool {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM users WHERE id = ?");
+            return $stmt->execute([$id]);
+        } catch (PDOException $e) {
+            Logger::error("Delete user gagal: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Semak email wujud
      */
     public function emailExists(string $email, int $excludeId = 0): bool {

@@ -160,39 +160,129 @@ body {
 
 <!-- Floating Nav Dock -->
 <div class="floating-bottom-nav">
-    <!-- Go Home/Top Button -->
-    <a href="javascript:void(0)" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" title="Ke Atas">
-        <i class="bi bi-chevron-up"></i>
-        <span>Atas</span>
+<?php
+$currentPage = $page ?? '';
+if ($isLoggedIn && in_array($userRole, ['superadmin', 'admin'])): ?>
+    <!-- ADMIN / SUPERADMIN bottom nav -->
+    <a href="<?= APP_URL ?>/index.php?page=sales" class="<?= $currentPage === 'sales' ? 'active' : '' ?>">
+        <i class="bi bi-speedometer2"></i>
+        <span>Dashboard</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=kitchen" class="<?= $currentPage === 'kitchen' ? 'active' : '' ?>">
+        <i class="bi bi-receipt"></i>
+        <span>Order List</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=admin-menu" class="<?= $currentPage === 'admin-menu' ? 'active' : '' ?>">
+        <i class="bi bi-pencil-square"></i>
+        <span>Urus Menu</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=staff-order" class="<?= $currentPage === 'staff-order' ? 'active' : '' ?>">
+        <i class="bi bi-calculator"></i>
+        <span>Cashier</span>
+    </a>
+    <?php if ($userRole === 'superadmin'): ?>
+    <a href="<?= APP_URL ?>/index.php?page=config" class="<?= $currentPage === 'config' ? 'active' : '' ?>">
+        <i class="bi bi-gear-wide-connected"></i>
+        <span>Config</span>
+    </a>
+    <?php endif; ?>
+    <a href="<?= APP_URL ?>/index.php?page=logout">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Keluar</span>
     </a>
 
-    <!-- Menu Button -->
-    <a href="<?= APP_URL ?>/index.php?page=menu" class="<?= ($page ?? '') === 'menu' ? 'active' : '' ?>">
+<?php elseif ($isLoggedIn && $userRole === 'staff'): ?>
+    <!-- STAFF bottom nav -->
+    <a href="<?= APP_URL ?>/index.php?page=kitchen" class="<?= $currentPage === 'kitchen' ? 'active' : '' ?>">
+        <i class="bi bi-fire"></i>
+        <span>Dapur</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=staff-order" class="<?= $currentPage === 'staff-order' ? 'active' : '' ?>">
+        <i class="bi bi-calculator"></i>
+        <span>Cashier</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=menu" class="<?= $currentPage === 'menu' ? 'active' : '' ?>">
         <i class="bi bi-shop"></i>
         <span>Menu</span>
     </a>
-    
-    <!-- Tracking Button -->
-    <a href="<?= APP_URL ?>/index.php?page=track-order" class="<?= ($page ?? '') === 'track-order' ? 'active' : '' ?>">
-        <i class="bi bi-search"></i>
-        <span>Pesanan</span>
+    <a href="<?= APP_URL ?>/index.php?page=logout">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Keluar</span>
     </a>
-    
-    <!-- Cart Button -->
-    <a href="<?= APP_URL ?>/index.php?page=cart" class="<?= ($page ?? '') === 'cart' ? 'active' : '' ?>">
+
+<?php elseif ($isLoggedIn && $userRole === 'buyer'): ?>
+    <!-- BUYER bottom nav -->
+    <a href="<?= APP_URL ?>/index.php?page=grocery" class="<?= $currentPage === 'grocery' ? 'active' : '' ?>">
+        <i class="bi bi-basket3"></i>
+        <span>Pasar</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=menu" class="<?= $currentPage === 'menu' ? 'active' : '' ?>">
+        <i class="bi bi-shop"></i>
+        <span>Menu</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=cart" class="<?= $currentPage === 'cart' ? 'active' : '' ?>">
         <i class="bi bi-cart3" style="position:relative;">
             <?php if ($cartCount > 0): ?>
-                <span class="cart-badge" id="cartBadge" style="position:absolute; top:-6px; right:-10px; width:18px; height:18px; font-size:0.65rem; border:2px solid var(--bg-card);"><?= $cartCount ?></span>
+                <span class="cart-badge" id="cartBadge" style="position:absolute;top:-6px;right:-10px;width:18px;height:18px;font-size:0.65rem;border:2px solid var(--bg-card);"><?= $cartCount ?></span>
             <?php endif; ?>
         </i>
         <span>Troli</span>
     </a>
-
-    <!-- Scroll Bottom Button -->
-    <a href="javascript:void(0)" onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})" title="Ke Bawah">
-        <i class="bi bi-chevron-down"></i>
-        <span>Bawah</span>
+    <a href="<?= APP_URL ?>/index.php?page=logout">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Keluar</span>
     </a>
+
+<?php elseif ($isLoggedIn && $userRole === 'customer'): ?>
+    <!-- CUSTOMER bottom nav -->
+    <a href="<?= APP_URL ?>/index.php?page=menu" class="<?= $currentPage === 'menu' ? 'active' : '' ?>">
+        <i class="bi bi-shop"></i>
+        <span>Menu</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=track-order" class="<?= $currentPage === 'track-order' ? 'active' : '' ?>">
+        <i class="bi bi-search"></i>
+        <span>Pesanan</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=cart" class="<?= $currentPage === 'cart' ? 'active' : '' ?>">
+        <i class="bi bi-cart3" style="position:relative;">
+            <?php if ($cartCount > 0): ?>
+                <span class="cart-badge" id="cartBadge" style="position:absolute;top:-6px;right:-10px;width:18px;height:18px;font-size:0.65rem;border:2px solid var(--bg-card);"><?= $cartCount ?></span>
+            <?php endif; ?>
+        </i>
+        <span>Troli</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=order-history" class="<?= $currentPage === 'order-history' ? 'active' : '' ?>">
+        <i class="bi bi-clock-history"></i>
+        <span>Sejarah</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=logout">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Keluar</span>
+    </a>
+
+<?php else: ?>
+    <!-- GUEST bottom nav -->
+    <a href="<?= APP_URL ?>/index.php?page=menu" class="<?= $currentPage === 'menu' ? 'active' : '' ?>">
+        <i class="bi bi-shop"></i>
+        <span>Menu</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=track-order" class="<?= $currentPage === 'track-order' ? 'active' : '' ?>">
+        <i class="bi bi-search"></i>
+        <span>Pesanan</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=cart" class="<?= $currentPage === 'cart' ? 'active' : '' ?>">
+        <i class="bi bi-cart3" style="position:relative;">
+            <?php if ($cartCount > 0): ?>
+                <span class="cart-badge" id="cartBadge" style="position:absolute;top:-6px;right:-10px;width:18px;height:18px;font-size:0.65rem;border:2px solid var(--bg-card);"><?= $cartCount ?></span>
+            <?php endif; ?>
+        </i>
+        <span>Troli</span>
+    </a>
+    <a href="<?= APP_URL ?>/index.php?page=login" class="<?= $currentPage === 'login' ? 'active' : '' ?>">
+        <i class="bi bi-person"></i>
+        <span>Log Masuk</span>
+    </a>
+<?php endif; ?>
 </div>
 
 <?php if ($isLoggedIn): ?>

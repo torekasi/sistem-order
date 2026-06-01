@@ -60,10 +60,17 @@ $roleBadges = [
                             <td class="text-muted fs-sm"><?= date('d/m/Y', strtotime($u['created_at'])) ?></td>
                             <td style="text-align:center">
                                 <?php if ($u['id'] !== Security::currentUserId()): ?>
-                                <button type="button" class="btn btn-primary" style="font-size:0.75rem;padding:4px 10px;" 
-                                        onclick="editUser(<?= $u['id'] ?>, '<?= htmlspecialchars($u['nama']) ?>', '<?= $u['role'] ?>', '<?= $u['status'] ?>')">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </button>
+                                <div style="display:flex;gap:6px;justify-content:center;">
+                                    <button type="button" class="btn btn-primary btn-sm"
+                                            onclick="editUser(<?= $u['id'] ?>, '<?= htmlspecialchars($u['nama'], ENT_QUOTES) ?>', '<?= $u['role'] ?>', '<?= $u['status'] ?>')">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm btn-delete-user"
+                                            data-id="<?= $u['id'] ?>"
+                                            data-nama="<?= htmlspecialchars($u['nama'], ENT_QUOTES) ?>">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
                                 <?php else: ?>
                                 <span class="text-muted fs-sm">Anda</span>
                                 <?php endif; ?>
@@ -125,5 +132,56 @@ function editUser(id, nama, role, status) {
 function closeModal(id) {
     document.getElementById(id).classList.remove('active');
 }
+
+// Delete user via AJAX + SOModal confirm
+document.addEventListener('click', async function (e) {
+    const btn = e.target.closest('.btn-delete-user');
+    if (!btn) return;
+    e.preventDefault();
+
+    const userId = btn.dataset.id;
+    const nama   = btn.dataset.nama;
+
+    const confirmed = await SOModal.confirm({
+        title:      'Padam Pengguna?',
+        message:    'Anda akan memadam akaun "' + nama + '". Tindakan ini tidak boleh dibatalkan.',
+        icon:       '🗑️',
+        okText:     'Ya, Padam',
+        okClass:    'btn-danger',
+        cancelText: 'Batal',
+    });
+    if (!confirmed) return;
+
+    showLoading('Mempadam...');
+
+    const formData = new FormData();
+    formData.append('user_id', userId);
+    formData.append('<?= CSRF_TOKEN_NAME ?>', '<?= Security::generateCSRFToken() ?>');
+
+    fetch('<?= APP_URL ?>/index.php?page=delete-user', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(r => r.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            SOToast.success(data.message);
+            // Remove the row from the table
+            const row = btn.closest('tr');
+            if (row) {
+                row.style.transition = 'opacity 0.4s ease';
+                row.style.opacity = '0';
+                setTimeout(() => row.remove(), 400);
+            }
+        } else {
+            SOToast.error(data.message || 'Gagal memadam pengguna.');
+        }
+    })
+    .catch(() => {
+        hideLoading();
+        SOToast.error('Ralat sambungan. Sila cuba lagi.');
+    });
+});
 </script>
 <?php require_once BASE_PATH . 'views/includes/footer.php'; ?>

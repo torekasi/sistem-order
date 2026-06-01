@@ -1,3 +1,35 @@
+<!-- =========================================================
+     GLOBAL MODAL SYSTEM
+     ========================================================= -->
+
+<!-- Notification Toast -->
+<div id="soToastContainer" class="so-toast-container"></div>
+
+<!-- Confirmation Modal -->
+<div class="so-modal-overlay" id="soConfirmOverlay">
+    <div class="so-modal" id="soConfirmModal" role="dialog" aria-modal="true" aria-labelledby="soConfirmTitle">
+        <div class="so-modal-icon" id="soConfirmIcon">⚠️</div>
+        <h3 class="so-modal-title" id="soConfirmTitle">Adakah anda pasti?</h3>
+        <p class="so-modal-message" id="soConfirmMessage">Tindakan ini tidak boleh dibatalkan.</p>
+        <div class="so-modal-actions">
+            <button class="btn btn-secondary" id="soConfirmCancel">Batal</button>
+            <button class="btn btn-danger" id="soConfirmOk">Ya, Teruskan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Alert Modal (info / success / error / warning) -->
+<div class="so-modal-overlay" id="soAlertOverlay">
+    <div class="so-modal" id="soAlertModal" role="dialog" aria-modal="true" aria-labelledby="soAlertTitle">
+        <div class="so-modal-icon" id="soAlertIcon">ℹ️</div>
+        <h3 class="so-modal-title" id="soAlertTitle">Notifikasi</h3>
+        <p class="so-modal-message" id="soAlertMessage"></p>
+        <div class="so-modal-actions">
+            <button class="btn btn-primary" id="soAlertOk">OK</button>
+        </div>
+    </div>
+</div>
+
 <!-- Footer -->
 <footer class="footer">
     <div class="container">

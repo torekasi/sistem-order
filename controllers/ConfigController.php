@@ -197,6 +197,64 @@ class ConfigController {
     }
 
     /**
+     * Padam pengguna
+     */
+    public function deleteUser(): void {
+        Security::requireRole('superadmin', 'admin');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            exit;
+        }
+
+        if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
+            echo json_encode(['success' => false, 'message' => 'Token keselamatan tidak sah.']);
+            exit;
+        }
+
+        $userId = Security::sanitizeInt($_POST['user_id'] ?? 0);
+
+        // Prevent self-deletion
+        if ($userId === Security::currentUserId()) {
+            echo json_encode(['success' => false, 'message' => 'Anda tidak boleh memadam akaun sendiri.']);
+            exit;
+        }
+
+        $userModel = new UserModel();
+        $targetUser = $userModel->getUserById($userId);
+
+        if (!$targetUser) {
+            echo json_encode(['success' => false, 'message' => 'Pengguna tidak dijumpai.']);
+            exit;
+        }
+
+        // Admin cannot delete superadmin
+        $currentRole = Security::currentUserRole();
+        if ($currentRole !== 'superadmin' && $targetUser['role'] === 'superadmin') {
+            echo json_encode(['success' => false, 'message' => 'Akses ditolak. Anda tidak boleh memadam Super Admin.']);
+            exit;
+        }
+
+        // Superadmin account cannot be deleted by anyone except another superadmin
+        if ($targetUser['role'] === 'superadmin' && $currentRole !== 'superadmin') {
+            echo json_encode(['success' => false, 'message' => 'Akses ditolak.']);
+            exit;
+        }
+
+        if ($userModel->deleteUser($userId)) {
+            Logger::admin("Padam pengguna", [
+                'target_user_id' => $userId,
+                'target_email'   => $targetUser['email'],
+                'user_id'        => Security::currentUserId(),
+            ]);
+            echo json_encode(['success' => true, 'message' => 'Pengguna berjaya dipadam.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Gagal memadam pengguna.']);
+        }
+        exit;
+    }
+
+    /**
      * Test sambungan DB (AJAX)
      */
     public function testConnection(): void {

@@ -109,6 +109,7 @@ $routes = [
     'config-test-db'     => ['controller' => 'ConfigController',  'action' => 'testConnection'],
     'manage-users'       => ['controller' => 'ConfigController',  'action' => 'manageUsers'],
     'update-user-role'   => ['controller' => 'ConfigController',  'action' => 'updateUserRole'],
+    'delete-user'        => ['controller' => 'ConfigController',  'action' => 'deleteUser'],
 ];
 
 // =========================================================
