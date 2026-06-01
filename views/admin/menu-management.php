@@ -133,9 +133,21 @@ document.addEventListener('click', async function (e) {
 
     showLoading('Mempadam...');
 
+    // Fetch fresh CSRF token before each request
+    let csrfToken = '';
+    try {
+        const tokenRes = await fetch(appUrl + '/index.php?page=csrf-token');
+        const tokenData = await tokenRes.json();
+        csrfToken = tokenData.token || '';
+    } catch (err) {
+        hideLoading();
+        SOToast.error('Gagal mendapatkan token keselamatan.');
+        return;
+    }
+
     const formData = new FormData();
     formData.append('id', itemId);
-    formData.append('<?= CSRF_TOKEN_NAME ?>', '<?= Security::generateCSRFToken() ?>');
+    formData.append('<?= CSRF_TOKEN_NAME ?>', csrfToken);
 
     fetch(appUrl + '/index.php?page=admin-menu-delete', {
         method: 'POST',

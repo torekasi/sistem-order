@@ -129,6 +129,16 @@ class AuthController {
     }
 
     /**
+     * Return fresh CSRF token as JSON (for AJAX requests)
+     */
+    public function getCsrfToken(): void {
+        Security::requireLogin();
+        header('Content-Type: application/json');
+        echo json_encode(['token' => Security::generateCSRFToken()]);
+        exit;
+    }
+
+    /**
      * Entry point untuk /admin - redirect ke login atau dashboard admin
      */
     public function adminEntry(): void {

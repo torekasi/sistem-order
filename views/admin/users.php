@@ -154,6 +154,50 @@ document.addEventListener('click', async function (e) {
 
     showLoading('Mempadam...');
 
+    // Fetch fresh CSRF token before each request
+    let csrfToken = '';
+    try {
+        const tokenRes = await fetch('<?= APP_URL ?>/index.php?page=csrf-token');
+        const tokenData = await tokenRes.json();
+        csrfToken = tokenData.token || '';
+    } catch (err) {
+        hideLoading();
+        SOToast.error('Gagal mendapatkan token keselamatan.');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append('user_id', userId);
+    formData.append('<?= CSRF_TOKEN_NAME ?>', csrfToken);
+
+    fetch('<?= APP_URL ?>/index.php?page=delete-user', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(r => r.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            SOToast.success(data.message);
+            const row = btn.closest('tr');
+            if (row) {
+                row.style.transition = 'opacity 0.4s ease';
+                row.style.opacity = '0';
+                setTimeout(() => row.remove(), 400);
+            }
+        } else {
+            SOToast.error(data.message || 'Gagal memadam pengguna.');
+        }
+    })
+    .catch(() => {
+        hideLoading();
+        SOToast.error('Ralat sambungan. Sila cuba lagi.');
+    });
+});
+    if (!confirmed) return;
+
+    showLoading('Mempadam...');
+
     const formData = new FormData();
     formData.append('user_id', userId);
     formData.append('<?= CSRF_TOKEN_NAME ?>', '<?= Security::generateCSRFToken() ?>');
