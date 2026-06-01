@@ -25,7 +25,7 @@
                     <td>
                         <div class="d-flex gap-1">
                             <button class="btn btn-secondary btn-sm" onclick="editItem(<?= htmlspecialchars(json_encode($item)) ?>)"><i class="bi bi-pencil"></i></button>
-                            <a href="<?= APP_URL ?>/index.php?page=admin-menu-delete&id=<?= $item['id'] ?>" class="btn btn-danger btn-sm" onclick="return confirm('Padam item ini?')"><i class="bi bi-trash"></i></a>
+                            <button class="btn btn-danger btn-sm btn-delete-menu" data-id="<?= $item['id'] ?>" data-nama="<?= htmlspecialchars($item['nama'], ENT_QUOTES) ?>"><i class="bi bi-trash"></i></button>
                         </div>
                     </td>
                 </tr>
@@ -99,7 +99,6 @@ function editItem(item) {
     document.getElementById('editStatus').value = item.status;
     document.getElementById('editPopular').checked = item.popular == 1;
     
-    // Papar gambar semasa (jika ada)
     const imgContainer = document.getElementById('currentImageContainer');
     const currImg = document.getElementById('currentImage');
     if (item.gambar) {
@@ -112,5 +111,55 @@ function editItem(item) {
     
     document.getElementById('editItemModal').classList.add('active');
 }
+
+// Delete menu item via AJAX + SOModal confirm
+document.addEventListener('click', async function (e) {
+    const btn = e.target.closest('.btn-delete-menu');
+    if (!btn) return;
+    e.preventDefault();
+
+    const itemId   = btn.dataset.id;
+    const itemNama = btn.dataset.nama;
+
+    const confirmed = await SOModal.confirm({
+        title:      'Padam Item Menu?',
+        message:    '"' + itemNama + '" akan dipadam secara kekal. Sejarah pesanan tidak akan terjejas.',
+        icon:       '🗑️',
+        okText:     'Ya, Padam',
+        okClass:    'btn-danger',
+        cancelText: 'Batal',
+    });
+    if (!confirmed) return;
+
+    showLoading('Mempadam...');
+
+    const formData = new FormData();
+    formData.append('id', itemId);
+    formData.append('<?= CSRF_TOKEN_NAME ?>', '<?= Security::generateCSRFToken() ?>');
+
+    fetch(appUrl + '/index.php?page=admin-menu-delete', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(r => r.json())
+    .then(data => {
+        hideLoading();
+        if (data.success) {
+            SOToast.success(data.message);
+            const row = btn.closest('tr');
+            if (row) {
+                row.style.transition = 'opacity 0.4s ease';
+                row.style.opacity = '0';
+                setTimeout(() => row.remove(), 400);
+            }
+        } else {
+            SOToast.error(data.message || 'Gagal memadam item.');
+        }
+    })
+    .catch(() => {
+        hideLoading();
+        SOToast.error('Ralat sambungan. Sila cuba lagi.');
+    });
+});
 </script>
 <?php require_once BASE_PATH . 'views/includes/footer.php'; ?>

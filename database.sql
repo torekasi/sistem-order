@@ -91,15 +91,15 @@ CREATE TABLE orders (
 CREATE TABLE order_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT NOT NULL,
-    menu_item_id INT NOT NULL,
+    menu_item_id INT DEFAULT NULL,
     nama_item VARCHAR(150) NOT NULL,
     kuantiti INT NOT NULL DEFAULT 1,
     harga_seunit DECIMAL(10,2) NOT NULL,
     jumlah DECIMAL(10,2) NOT NULL,
     nota VARCHAR(255) DEFAULT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (menu_item_id) REFERENCES menu_items(id) ON DELETE CASCADE,
-    INDEX idx_order (order_id)
+    INDEX idx_order (order_id),
+    INDEX idx_menu_item (menu_item_id)
 ) ENGINE=InnoDB;
 
 -- =========================================================

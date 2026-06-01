@@ -150,11 +150,32 @@ class MenuModel {
     }
 
     /**
-     * Padam item menu (soft delete)
+     * Padam item menu (hard delete)
+     * Nullify FK in order_items first to preserve order history
      */
     public function deleteItem(int $id): bool {
-        $stmt = $this->db->prepare("UPDATE menu_items SET status = 'tidak_aktif' WHERE id = ?");
-        return $stmt->execute([$id]);
+        try {
+            $this->db->beginTransaction();
+
+            // Remove FK link - preserve order history by storing item name only
+            $this->db->prepare("UPDATE order_items SET menu_item_id = NULL WHERE menu_item_id = ?")
+                     ->execute([$id]);
+
+            // Remove ingredients linked to this item
+            $this->db->prepare("DELETE FROM ingredients WHERE menu_item_id = ?")
+                     ->execute([$id]);
+
+            // Hard delete the menu item
+            $stmt = $this->db->prepare("DELETE FROM menu_items WHERE id = ?");
+            $stmt->execute([$id]);
+
+            $this->db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->db->rollBack();
+            Logger::error("Padam menu item gagal: " . $e->getMessage());
+            return false;
+        }
     }
 
     /**

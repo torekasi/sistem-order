@@ -145,20 +145,34 @@ class MenuController {
     }
 
     /**
-     * Padam item menu (admin - soft delete)
+     * Padam item menu (admin - hard delete via AJAX POST)
      */
     public function deleteItem(): void {
         Security::requireRole('admin');
+        header('Content-Type: application/json');
 
-        $id = Security::sanitizeInt($_GET['id'] ?? 0);
-        if ($id > 0 && $this->menuModel->deleteItem($id)) {
-            $_SESSION['success'] = 'Item menu berjaya dipadam.';
-            Logger::admin("Padam menu item", ['id' => $id, 'user_id' => Security::currentUserId()]);
-        } else {
-            $_SESSION['error'] = 'Gagal memadam item menu.';
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            echo json_encode(['success' => false, 'message' => 'Kaedah tidak dibenarkan.']);
+            exit;
         }
 
-        header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+        if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
+            echo json_encode(['success' => false, 'message' => 'Token keselamatan tidak sah.']);
+            exit;
+        }
+
+        $id = Security::sanitizeInt($_POST['id'] ?? 0);
+        if ($id <= 0) {
+            echo json_encode(['success' => false, 'message' => 'ID tidak sah.']);
+            exit;
+        }
+
+        if ($this->menuModel->deleteItem($id)) {
+            Logger::admin("Padam menu item", ['id' => $id, 'user_id' => Security::currentUserId()]);
+            echo json_encode(['success' => true, 'message' => 'Item menu berjaya dipadam.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Gagal memadam item menu.']);
+        }
         exit;
     }
 
