@@ -129,6 +129,23 @@ class AuthController {
     }
 
     /**
+     * Entry point untuk /admin - redirect ke login atau dashboard admin
+     */
+    public function adminEntry(): void {
+        if (Security::isLoggedIn()) {
+            $role = Security::currentUserRole();
+            if ($role === 'admin') {
+                header('Location: ' . APP_URL . '/index.php?page=sales');
+                exit;
+            }
+            // Bukan admin, log keluar dulu
+            session_destroy();
+        }
+        header('Location: ' . APP_URL . '/index.php?page=login');
+        exit;
+    }
+
+    /**
      * Log keluar
      */
     public function logout(): void {

@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /sistem-order/public/
+RewriteBase /
 
 # Elak akses ke fail .config.php dan fail tersembunyi
 RewriteRule ^\.config\.php$ - [F,L]

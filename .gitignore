@@ -1,0 +1,28 @@
+# Configuration (sensitive)
+.config.php
+
+# Logs
+logs/*.log
+logs/**/*.log
+
+# Uploads
+public/assets/uploads/*
+!public/assets/uploads/.gitkeep
+
+# Environment
+.env
+.env.local
+
+# OS
+Thumbs.db
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker volumes (if any local)
+db_data/
+upload_data/

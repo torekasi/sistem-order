@@ -22,7 +22,15 @@ setSecurityHeaders();
 Logger::init();
 
 // Dapatkan halaman yang diminta
-$page = isset($_GET['page']) ? Security::sanitize($_GET['page']) : 'menu';
+// Sokong dua format: ?page=xxx ATAU URL pretty /xxx (via .htaccess rewrite)
+if (isset($_GET['page'])) {
+    $page = Security::sanitize($_GET['page']);
+} else {
+    // Extract path dari REQUEST_URI
+    $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
+    $uri = trim($uri, '/');
+    $page = $uri !== '' && $uri !== 'index.php' ? Security::sanitize($uri) : 'menu';
+}
 $action = isset($_GET['action']) ? Security::sanitize($_GET['action']) : 'index';
 
 // =========================================================
@@ -35,6 +43,7 @@ $routes = [
     'auth-login'    => ['controller' => 'AuthController',    'action' => 'processLogin'],
     'auth-register' => ['controller' => 'AuthController',    'action' => 'processRegister'],
     'logout'        => ['controller' => 'AuthController',    'action' => 'logout'],
+    'admin'         => ['controller' => 'AuthController',    'action' => 'adminEntry'],
 
     // Menu (Pelanggan)
     'menu'          => ['controller' => 'MenuController',    'action' => 'showMenu'],
