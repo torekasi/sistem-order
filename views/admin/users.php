@@ -194,38 +194,5 @@ document.addEventListener('click', async function (e) {
         SOToast.error('Ralat sambungan. Sila cuba lagi.');
     });
 });
-    if (!confirmed) return;
-
-    showLoading('Mempadam...');
-
-    const formData = new FormData();
-    formData.append('user_id', userId);
-    formData.append('<?= CSRF_TOKEN_NAME ?>', '<?= Security::generateCSRFToken() ?>');
-
-    fetch('<?= APP_URL ?>/index.php?page=delete-user', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(r => r.json())
-    .then(data => {
-        hideLoading();
-        if (data.success) {
-            SOToast.success(data.message);
-            // Remove the row from the table
-            const row = btn.closest('tr');
-            if (row) {
-                row.style.transition = 'opacity 0.4s ease';
-                row.style.opacity = '0';
-                setTimeout(() => row.remove(), 400);
-            }
-        } else {
-            SOToast.error(data.message || 'Gagal memadam pengguna.');
-        }
-    })
-    .catch(() => {
-        hideLoading();
-        SOToast.error('Ralat sambungan. Sila cuba lagi.');
-    });
-});
 </script>
 <?php require_once BASE_PATH . 'views/includes/footer.php'; ?>
