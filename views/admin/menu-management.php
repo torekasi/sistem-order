@@ -84,6 +84,7 @@
 
 <script>
 const appUrl = '<?= APP_URL ?>';
+const csrfToken = <?= json_encode(Security::generateCSRFToken()) ?>;
 function decodeHtmlEntities(str) {
     if (!str) return '';
     var txt = document.createElement("textarea");
@@ -133,21 +134,9 @@ document.addEventListener('click', async function (e) {
 
     showLoading('Mempadam...');
 
-    // Fetch fresh CSRF token before each request
-    let csrfToken = '';
-    try {
-        const tokenRes = await fetch(appUrl + '/index.php?page=csrf-token');
-        const tokenData = await tokenRes.json();
-        csrfToken = tokenData.token || '';
-    } catch (err) {
-        hideLoading();
-        SOToast.error('Gagal mendapatkan token keselamatan.');
-        return;
-    }
-
     const formData = new FormData();
     formData.append('id', itemId);
-    formData.append('<?= CSRF_TOKEN_NAME ?>', csrfToken);
+    formData.append(<?= json_encode(CSRF_TOKEN_NAME) ?>, csrfToken);
 
     fetch(appUrl + '/index.php?page=admin-menu-delete', {
         method: 'POST',
@@ -158,6 +147,7 @@ document.addEventListener('click', async function (e) {
         hideLoading();
         if (data.success) {
             SOToast.success(data.message);
+            csrfToken = data.new_csrf_token || csrfToken;
             const row = btn.closest('tr');
             if (row) {
                 row.style.transition = 'opacity 0.4s ease';

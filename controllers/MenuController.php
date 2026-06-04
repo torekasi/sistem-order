@@ -167,11 +167,16 @@ class MenuController {
             exit;
         }
 
+        $newToken = Security::generateCSRFToken();
         if ($this->menuModel->deleteItem($id)) {
             Logger::admin("Padam menu item", ['id' => $id, 'user_id' => Security::currentUserId()]);
-            echo json_encode(['success' => true, 'message' => 'Item menu berjaya dipadam.']);
+            echo json_encode([
+                'success' => true,
+                'message' => 'Item menu berjaya dipadam.',
+                'new_csrf_token' => $newToken
+            ]);
         } else {
-            echo json_encode(['success' => false, 'message' => 'Gagal memadam item menu.']);
+            echo json_encode(['success' => false, 'message' => 'Gagal memadam item menu.', 'new_csrf_token' => $newToken]);
         }
         exit;
     }
