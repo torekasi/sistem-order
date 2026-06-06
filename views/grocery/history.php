@@ -8,7 +8,7 @@ require_once BASE_PATH . 'views/includes/header.php';
             <h1><i class="bi bi-clock-history"></i> Sejarah Belanja</h1>
             <p>Rekod semua senarai belanja yang lepas</p>
         </div>
-        <a href="<?= APP_URL ?>/index.php?page=grocery" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+        <a href="<?= url('grocery') ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
     </div>
     <?php if (empty($history)): ?>
         <div class="empty-state"><div class="icon">📋</div><h3>Tiada sejarah</h3></div>

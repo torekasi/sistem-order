@@ -241,7 +241,8 @@ INSERT INTO system_settings (setting_key, setting_value, setting_group, setting_
 ('store_name', 'Kedai Makan', 'store', 'text', 'Nama Kedai', 'Nama kedai yang dipaparkan', NULL, 1),
 ('store_address', '', 'store', 'textarea', 'Alamat Kedai', 'Alamat penuh kedai', NULL, 2),
 ('store_phone', '', 'store', 'text', 'No. Telefon', 'Nombor telefon kedai', NULL, 3),
-('store_logo', '', 'store', 'text', 'Logo URL', 'URL atau path ke logo kedai', NULL, 4);
+('store_logo', '', 'store', 'text', 'Logo URL', 'URL atau path ke logo kedai', NULL, 4),
+('app_favicon', '', 'application', 'image', 'Favicon Ikon', 'Ikon tab pelayar (PNG/ICO, saiz bawah 1MB)', NULL, 6);
 
 -- =========================================================
 -- DATA AWAL: Kategori (Burger Stall)

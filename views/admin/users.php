@@ -98,7 +98,7 @@ $roleBadges = [
             <button type="button" class="modal-close" onclick="closeModal('modalAddUser')">&times;</button>
         </div>
         <div class="modal-body">
-            <form method="POST" action="<?= APP_URL ?>/index.php?page=add-user">
+            <form method="POST" action="<?= url('add-user') ?>">
                 <?= Security::csrfField() ?>
                 <div class="form-group">
                     <label class="fw-bold">Nama Penuh</label>
@@ -151,7 +151,7 @@ $roleBadges = [
             <button type="button" class="modal-close" onclick="closeModal('modalEditUser')">&times;</button>
         </div>
         <div class="modal-body">
-            <form method="POST" action="<?= APP_URL ?>/index.php?page=update-user-role">
+            <form method="POST" action="<?= url('update-user-role') ?>">
                 <?= Security::csrfField() ?>
                 <input type="hidden" name="user_id" id="editUserId">
                 <div class="form-group">
@@ -220,7 +220,7 @@ document.addEventListener('click', async function (e) {
     // Fetch fresh CSRF token before each request
     let csrfToken = '';
     try {
-        const tokenRes = await fetch('<?= APP_URL ?>/index.php?page=csrf-token');
+        const tokenRes = await fetch('<?= url('csrf-token') ?>');
         const tokenData = await tokenRes.json();
         csrfToken = tokenData.token || '';
     } catch (err) {
@@ -233,7 +233,7 @@ document.addEventListener('click', async function (e) {
     formData.append('user_id', userId);
     formData.append('<?= CSRF_TOKEN_NAME ?>', csrfToken);
 
-    fetch('<?= APP_URL ?>/index.php?page=delete-user', {
+    fetch('<?= url('delete-user') ?>', {
         method: 'POST',
         body: formData,
     })

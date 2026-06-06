@@ -40,7 +40,7 @@
     <div class="modal">
         <div class="modal-header"><h3>Tambah Item Menu</h3><button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('active')">&times;</button></div>
         <div class="modal-body">
-            <form method="POST" action="<?= APP_URL ?>/index.php?page=admin-menu-add" enctype="multipart/form-data">
+            <form method="POST" action="<?= url('admin-menu-add') ?>" enctype="multipart/form-data">
                 <?= Security::csrfField() ?>
                 <div class="form-group"><label class="form-label">Kategori</label><select name="category_id" class="form-control" required><?php foreach($categories as $c): ?><option value="<?=$c['id']?>"><?=htmlspecialchars($c['nama'])?></option><?php endforeach; ?></select></div>
                 <div class="form-group"><label class="form-label">Nama Item</label><input type="text" name="nama" class="form-control" required></div>
@@ -59,7 +59,7 @@
     <div class="modal">
         <div class="modal-header"><h3>Edit Item Menu</h3><button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('active')">&times;</button></div>
         <div class="modal-body">
-            <form method="POST" action="<?= APP_URL ?>/index.php?page=admin-menu-edit" enctype="multipart/form-data">
+            <form method="POST" action="<?= url('admin-menu-edit') ?>" enctype="multipart/form-data">
                 <?= Security::csrfField() ?>
                 <input type="hidden" name="id" id="editId">
                 <div class="form-group"><label class="form-label">Kategori</label><select name="category_id" id="editCategory" class="form-control"><?php foreach($categories as $c): ?><option value="<?=$c['id']?>"><?=htmlspecialchars($c['nama'])?></option><?php endforeach; ?></select></div>
@@ -138,7 +138,7 @@ document.addEventListener('click', async function (e) {
     formData.append('id', itemId);
     formData.append(<?= json_encode(CSRF_TOKEN_NAME) ?>, csrfToken);
 
-    fetch(appUrl + '/index.php?page=admin-menu-delete', {
+    fetch('<?= url('admin-menu-delete') ?>', {
         method: 'POST',
         body: formData,
     })

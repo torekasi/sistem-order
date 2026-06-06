@@ -46,13 +46,13 @@ class ConfigController {
         Security::requireRole('superadmin');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . APP_URL . '/index.php?page=config');
+            header('Location: ' . url('config'));
             exit;
         }
 
         if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
             $_SESSION['error'] = 'Token keselamatan tidak sah.';
-            header('Location: ' . APP_URL . '/index.php?page=config');
+            header('Location: ' . url('config'));
             exit;
         }
 
@@ -81,7 +81,7 @@ class ConfigController {
 
                     if ($size > UPLOAD_MAX_SIZE || !in_array($type, UPLOAD_ALLOWED_TYPES)) {
                         $_SESSION['error'] = 'Gagal muat naik fail ('.htmlspecialchars($key).'): Saiz atas had atau fail tidak sah.';
-                        header('Location: ' . APP_URL . '/index.php?page=config');
+                        header('Location: ' . url('config'));
                         exit;
                     }
 
@@ -111,7 +111,7 @@ class ConfigController {
             $_SESSION['error'] = 'Gagal mengemaskini tetapan.';
         }
 
-        header('Location: ' . APP_URL . '/index.php?page=config');
+        header('Location: ' . url('config'));
         exit;
     }
 
@@ -139,13 +139,13 @@ class ConfigController {
         Security::requireRole('superadmin', 'admin');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            header('Location: ' . url('manage-users'));
             exit;
         }
 
         if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
             $_SESSION['error'] = 'Token keselamatan tidak sah.';
-            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            header('Location: ' . url('manage-users'));
             exit;
         }
 
@@ -156,14 +156,14 @@ class ConfigController {
         $validRoles = ['superadmin', 'admin', 'staff', 'cashier', 'customer', 'buyer'];
         if (!in_array($role, $validRoles)) {
             $_SESSION['error'] = 'Peranan tidak sah.';
-            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            header('Location: ' . url('manage-users'));
             exit;
         }
 
         // Jangan biar superadmin tukar peranan sendiri
         if ($userId === Security::currentUserId()) {
             $_SESSION['error'] = 'Anda tidak boleh menukar peranan sendiri.';
-            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            header('Location: ' . url('manage-users'));
             exit;
         }
         
@@ -175,7 +175,7 @@ class ConfigController {
             $targetUser = $userModel->getUserById($userId);
             if ($role === 'superadmin' || ($targetUser && $targetUser['role'] === 'superadmin')) {
                 $_SESSION['error'] = 'Akses ditolak. Anda tidak boleh mengurus akaun Super Admin.';
-                header('Location: ' . APP_URL . '/index.php?page=manage-users');
+                header('Location: ' . url('manage-users'));
                 exit;
             }
         }
@@ -192,7 +192,7 @@ class ConfigController {
             $_SESSION['error'] = 'Gagal mengemaskini pengguna.';
         }
 
-        header('Location: ' . APP_URL . '/index.php?page=manage-users');
+        header('Location: ' . url('manage-users'));
         exit;
     }
 
@@ -203,7 +203,7 @@ class ConfigController {
         Security::requireRole('superadmin', 'admin');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            header('Location: ' . url('manage-users'));
             exit;
         }
 
@@ -261,13 +261,13 @@ class ConfigController {
         Security::requireRole('superadmin', 'admin');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            header('Location: ' . url('manage-users'));
             exit;
         }
 
         if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
             $_SESSION['error'] = 'Token keselamatan tidak sah.';
-            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            header('Location: ' . url('manage-users'));
             exit;
         }
 
@@ -296,14 +296,14 @@ class ConfigController {
         if ($currentUserRole !== 'superadmin') {
             if (in_array($role, ['superadmin', 'admin'])) {
                 $_SESSION['error'] = 'Akses ditolak. Anda tidak boleh membuat akaun Super Admin atau Admin.';
-                header('Location: ' . APP_URL . '/index.php?page=manage-users');
+                header('Location: ' . url('manage-users'));
                 exit;
             }
         }
 
         if (!empty($errors)) {
             $_SESSION['error'] = implode('<br>', $errors);
-            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            header('Location: ' . url('manage-users'));
             exit;
         }
 
@@ -312,7 +312,7 @@ class ConfigController {
         // Semak email sudah wujud
         if ($userModel->emailExists($email)) {
             $_SESSION['error'] = 'Email sudah digunakan oleh akaun lain.';
-            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            header('Location: ' . url('manage-users'));
             exit;
         }
 
@@ -336,7 +336,7 @@ class ConfigController {
             $_SESSION['error'] = 'Gagal menambah pengguna. Sila cuba lagi.';
         }
 
-        header('Location: ' . APP_URL . '/index.php?page=manage-users');
+        header('Location: ' . url('manage-users'));
         exit;
     }
 

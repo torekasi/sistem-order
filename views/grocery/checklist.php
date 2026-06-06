@@ -13,10 +13,10 @@ $progress = $totalItems > 0 ? round(($checkedItems / $totalItems) * 100) : 0;
             <p>Tarikh: <?= date('d/m/Y', strtotime($list['tarikh_belanja'])) ?> • Dibuat oleh: <?= htmlspecialchars($list['dibuat_oleh']) ?></p>
         </div>
         <div class="d-flex gap-1">
-            <a href="<?= APP_URL ?>/index.php?page=grocery-done&id=<?= $list['id'] ?>" class="btn btn-success" onclick="return confirm('Tandak senarai selesai?')">
+            <a href="<?= url('grocery-done?id=' . $list['id']) ?>" class="btn btn-success" onclick="return confirm('Tandak senarai selesai?')">
                 <i class="bi bi-check-all"></i> Selesai Belanja
             </a>
-            <a href="<?= APP_URL ?>/index.php?page=grocery" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
+            <a href="<?= url('grocery') ?>" class="btn btn-secondary"><i class="bi bi-arrow-left"></i> Kembali</a>
         </div>
     </div>
 
@@ -43,7 +43,7 @@ $progress = $totalItems > 0 ? round(($checkedItems / $totalItems) * 100) : 0;
     <!-- Add Item Form -->
     <div class="card" style="margin-bottom:20px;">
         <div class="card-body">
-            <form method="POST" action="<?= APP_URL ?>/index.php?page=grocery-edit&id=<?= $list['id'] ?>" class="d-flex gap-1 align-center" style="flex-wrap:wrap;">
+            <form method="POST" action="<?= url('grocery-edit?id=' . $list['id']) ?>" class="d-flex gap-1 align-center" style="flex-wrap:wrap;">
                 <?= Security::csrfField() ?>
                 <input type="hidden" name="add_item" value="1">
                 <input type="text" name="nama" class="form-control" placeholder="Nama barang..." style="flex:2;min-width:150px;" required>
@@ -104,7 +104,7 @@ $progress = $totalItems > 0 ? round(($checkedItems / $totalItems) * 100) : 0;
 function toggleGroceryItem(itemId, checkbox) {
     const formData = new FormData();
     formData.append('item_id', itemId);
-    fetch('<?= APP_URL ?>/index.php?page=grocery-toggle', { method: 'POST', body: formData })
+    fetch('<?= url('grocery-toggle') ?>', { method: 'POST', body: formData })
         .then(r => r.json())
         .then(data => {
             if (data.success) {
@@ -123,7 +123,7 @@ function updateGroceryPrice(itemId, price) {
     const formData = new FormData();
     formData.append('item_id', itemId);
     formData.append('harga_sebenar', price);
-    fetch('<?= APP_URL ?>/index.php?page=grocery-toggle', { method: 'POST', body: formData })
+    fetch('<?= url('grocery-toggle') ?>', { method: 'POST', body: formData })
         .then(r => r.json())
         .then(data => {
             if (data.success) {

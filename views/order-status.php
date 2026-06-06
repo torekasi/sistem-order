@@ -478,11 +478,11 @@ $currentStatusIndex = $order ? array_search($order['status'], $statusFlow) : -1;
 
         <div class="bottom-action" style="display:flex; flex-direction:column; gap:12px;" id="orderActions">
             <?php if ($order['status'] === 'completed'): ?>
-            <a href="<?= APP_URL ?>/index.php?page=receipt&id=<?= $order['id'] ?>" target="_blank" class="btn btn-primary" style="text-align:center; padding:14px; border-radius:12px; font-weight:bold; box-shadow:0 4px 15px rgba(255,107,53,0.3);">
+            <a href="<?= url('receipt?id=' . $order['id']) ?>" target="_blank" class="btn btn-primary" style="text-align:center; padding:14px; border-radius:12px; font-weight:bold; box-shadow:0 4px 15px rgba(255,107,53,0.3);">
                 <i class="bi bi-receipt"></i> Muat Turun Resit
             </a>
             <?php endif; ?>
-            <a href="<?= APP_URL ?>/index.php?page=menu" class="btn-glowing" style="text-align:center;">
+            <a href="<?= url('menu') ?>" class="btn-glowing" style="text-align:center;">
                 <i class="bi bi-arrow-left"></i> Kembali ke Menu Utama
             </a>
         </div>
@@ -509,7 +509,7 @@ $currentStatusIndex = $order ? array_search($order['status'], $statusFlow) : -1;
             let lastStatus = '<?= $order['status'] ?>';
 
             function checkStatus() {
-                fetch('<?= APP_URL ?>/index.php?page=api-order-status&no=' + encodeURIComponent(noPesanan))
+                fetch('<?= url('api-order-status?no=') ?>' + encodeURIComponent(noPesanan))
                     .then(r => r.json())
                     .then(data => {
                         if (data.success && data.status !== lastStatus) {

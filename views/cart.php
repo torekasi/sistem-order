@@ -14,7 +14,7 @@ require_once BASE_PATH . 'views/includes/header.php';
             <div class="icon">🛒</div>
             <h3>Cart anda kosong</h3>
             <p class="text-muted">Sila tambah item dari menu</p>
-            <a href="<?= APP_URL ?>/index.php?page=menu" class="btn btn-primary mt-2">
+            <a href="<?= url('menu') ?>" class="btn btn-primary mt-2">
                 <i class="bi bi-arrow-left"></i> Kembali ke Menu
             </a>
         </div>
@@ -60,7 +60,7 @@ require_once BASE_PATH . 'views/includes/header.php';
                     </div>
                 <?php endforeach; ?>
 
-                <a href="<?= APP_URL ?>/index.php?page=menu" class="btn btn-secondary mt-2">
+                <a href="<?= url('menu') ?>" class="btn btn-secondary mt-2">
                     <i class="bi bi-arrow-left"></i> Tambah Lagi
                 </a>
             </div>
@@ -70,7 +70,7 @@ require_once BASE_PATH . 'views/includes/header.php';
                 <div class="card-body">
                     <h3 style="margin-bottom:20px;">Ringkasan Pesanan</h3>
                     
-                    <form method="POST" action="<?= APP_URL ?>/index.php?page=checkout">
+                    <form method="POST" action="<?= url('checkout') ?>">
                         <?= Security::csrfField() ?>
                         
                         <div class="form-group">

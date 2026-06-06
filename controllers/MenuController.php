@@ -49,13 +49,13 @@ class MenuController {
         Security::requireRole('admin');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+            header('Location: ' . url('admin-menu'));
             exit;
         }
 
         if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
             $_SESSION['error'] = 'Token keselamatan tidak sah.';
-            header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+            header('Location: ' . url('admin-menu'));
             exit;
         }
 
@@ -71,14 +71,14 @@ class MenuController {
             $gambar = $this->handleUpload($_FILES['gambar']);
             if (empty($gambar)) {
                 // Return if upload failed, error is already set in handleUpload
-                header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+                header('Location: ' . url('admin-menu'));
                 exit;
             }
         }
 
         if (empty($nama) || $harga <= 0 || $categoryId <= 0) {
             $_SESSION['error'] = 'Sila isi semua maklumat yang diperlukan.';
-            header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+            header('Location: ' . url('admin-menu'));
             exit;
         }
 
@@ -91,7 +91,7 @@ class MenuController {
             $_SESSION['error'] = 'Gagal menambah item menu.';
         }
 
-        header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+        header('Location: ' . url('admin-menu'));
         exit;
     }
 
@@ -102,13 +102,13 @@ class MenuController {
         Security::requireRole('admin');
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+            header('Location: ' . url('admin-menu'));
             exit;
         }
 
         if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
             $_SESSION['error'] = 'Token keselamatan tidak sah.';
-            header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+            header('Location: ' . url('admin-menu'));
             exit;
         }
 
@@ -125,7 +125,7 @@ class MenuController {
         if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
             $upload_path = $this->handleUpload($_FILES['gambar']);
             if (empty($upload_path)) {
-                header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+                header('Location: ' . url('admin-menu'));
                 exit;
             }
             $data['gambar'] = $upload_path;
@@ -140,7 +140,7 @@ class MenuController {
             }
         }
 
-        header('Location: ' . APP_URL . '/index.php?page=admin-menu');
+        header('Location: ' . url('admin-menu'));
         exit;
     }
 

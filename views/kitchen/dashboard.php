@@ -11,7 +11,7 @@ require_once BASE_PATH . 'views/includes/header.php';
             <p>Pesanan aktif yang perlu disediakan</p>
         </div>
         <div class="d-flex gap-1">
-            <a href="<?= APP_URL ?>/index.php?page=staff-order" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Buat Order Baru</a>
+            <a href="<?= url('staff-order') ?>" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Buat Order Baru</a>
             <button class="btn btn-secondary" onclick="refreshOrders()"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
         </div>
     </div>

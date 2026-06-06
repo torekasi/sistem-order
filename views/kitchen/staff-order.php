@@ -160,7 +160,7 @@ require_once BASE_PATH . 'views/includes/header.php';
             <button type="button" class="btn btn-secondary btn-sm" onclick="toggleOrderForm()"><i class="bi bi-x"></i> Tutup Form</button>
         </div>
 
-        <form method="POST" action="<?= APP_URL ?>/index.php?page=staff-order" id="staffOrderForm">
+        <form method="POST" action="<?= url('staff-order') ?>" id="staffOrderForm">
             <?= Security::csrfField() ?>
             
             <div style="display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start;">

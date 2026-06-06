@@ -13,7 +13,7 @@ require_once BASE_PATH . 'views/includes/header.php';
                 <p class="text-muted" style="font-size:0.85rem;">Masukkan kata laluan semasa dan kata laluan baru anda</p>
             </div>
 
-            <form method="POST" action="<?= APP_URL ?>/index.php?page=change-password-save">
+            <form method="POST" action="<?= url('change-password-save') ?>">
                 <?= Security::csrfField() ?>
                 <div class="form-group">
                     <label class="fw-bold">Kata Laluan Semasa</label>
@@ -29,7 +29,7 @@ require_once BASE_PATH . 'views/includes/header.php';
                 </div>
                 <div style="margin-top:24px;display:flex;gap:12px;">
                     <button type="submit" class="btn btn-primary btn-block"><i class="bi bi-check-circle"></i> Simpan</button>
-                    <a href="<?= APP_URL ?>/index.php?page=menu" class="btn btn-secondary btn-block">Batal</a>
+                    <a href="<?= url('menu') ?>" class="btn btn-secondary btn-block">Batal</a>
                 </div>
             </form>
         </div>

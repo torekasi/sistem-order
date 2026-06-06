@@ -50,7 +50,7 @@ require_once BASE_PATH . 'views/includes/header.php';
             </div>
 
             <?php if ($payment['kaedah'] === 'tunai'): ?>
-                <form method="POST" action="<?= APP_URL ?>/index.php?page=payment-process">
+                <form method="POST" action="<?= url('payment-process') ?>">
                     <?= Security::csrfField() ?>
                     <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                     <input type="hidden" name="payment_id" value="<?= $payment['id'] ?>">
@@ -77,7 +77,7 @@ require_once BASE_PATH . 'views/includes/header.php';
                         <p class="text-muted fs-sm text-danger">Maklumkan kepada pihak kedai untuk menetapkan gambar QR.</p>
                     <?php endif; ?>
                 </div>
-                <form method="POST" action="<?= APP_URL ?>/index.php?page=payment-process">
+                <form method="POST" action="<?= url('payment-process') ?>">
                     <?= Security::csrfField() ?>
                     <input type="hidden" name="order_id" value="<?= $order['id'] ?>">
                     <input type="hidden" name="payment_id" value="<?= $payment['id'] ?>">
@@ -88,7 +88,7 @@ require_once BASE_PATH . 'views/includes/header.php';
     </div>
 
     <div class="text-center mt-2">
-        <a href="<?= APP_URL ?>/index.php?page=track-order&no=<?= urlencode($order['no_pesanan']) ?>" class="btn btn-secondary">
+        <a href="<?= url('track-order?no=' . urlencode($order['no_pesanan'])) ?>" class="btn btn-secondary">
             <i class="bi bi-search"></i> Jejak Status Pesanan
         </a>
     </div>

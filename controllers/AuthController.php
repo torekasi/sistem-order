@@ -42,14 +42,14 @@ class AuthController {
      */
     public function processLogin(): void {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . APP_URL . '/index.php?page=login');
+            header('Location: ' . url('login'));
             exit;
         }
 
         // CSRF validation
         if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
             $_SESSION['error'] = 'Token keselamatan tidak sah. Sila cuba lagi.';
-            header('Location: ' . APP_URL . '/index.php?page=login');
+            header('Location: ' . url('login'));
             exit;
         }
 
@@ -58,7 +58,7 @@ class AuthController {
 
         if (empty($loginId) || empty($kata_laluan)) {
             $_SESSION['error'] = 'Sila isi semua maklumat.';
-            header('Location: ' . APP_URL . '/index.php?page=login');
+            header('Location: ' . url('login'));
             exit;
         }
 
@@ -74,7 +74,7 @@ class AuthController {
             $this->redirectByRole();
         } else {
             $_SESSION['error'] = 'Email atau kata laluan salah.';
-            header('Location: ' . APP_URL . '/index.php?page=login');
+            header('Location: ' . url('login'));
         }
         exit;
     }
@@ -84,13 +84,13 @@ class AuthController {
      */
     public function processRegister(): void {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . APP_URL . '/index.php?page=register');
+            header('Location: ' . url('register'));
             exit;
         }
 
         if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
             $_SESSION['error'] = 'Token keselamatan tidak sah.';
-            header('Location: ' . APP_URL . '/index.php?page=register');
+            header('Location: ' . url('register'));
             exit;
         }
 
@@ -111,7 +111,7 @@ class AuthController {
         if (!empty($errors)) {
             $_SESSION['error'] = implode('<br>', $errors);
             $_SESSION['old'] = ['nama' => $nama, 'email' => $email, 'telefon' => $telefon];
-            header('Location: ' . APP_URL . '/index.php?page=register');
+            header('Location: ' . url('register'));
             exit;
         }
 
@@ -120,10 +120,10 @@ class AuthController {
         if ($userId) {
             $_SESSION['success'] = 'Pendaftaran berjaya! Sila log masuk.';
             Logger::info("Pendaftaran berjaya", ['user_id' => $userId, 'email' => $email]);
-            header('Location: ' . APP_URL . '/index.php?page=login');
+            header('Location: ' . url('login'));
         } else {
             $_SESSION['error'] = 'Pendaftaran gagal. Sila cuba lagi.';
-            header('Location: ' . APP_URL . '/index.php?page=register');
+            header('Location: ' . url('register'));
         }
         exit;
     }
@@ -145,13 +145,13 @@ class AuthController {
         if (Security::isLoggedIn()) {
             $role = Security::currentUserRole();
             if ($role === 'admin') {
-                header('Location: ' . APP_URL . '/index.php?page=sales');
+                header('Location: ' . url('sales'));
                 exit;
             }
             // Bukan admin, log keluar dulu
             session_destroy();
         }
-        header('Location: ' . APP_URL . '/index.php?page=login');
+        header('Location: ' . url('login'));
         exit;
     }
 
@@ -162,7 +162,7 @@ class AuthController {
         $userId = Security::currentUserId();
         Logger::info("Logout", ['user_id' => $userId]);
         session_destroy();
-        header('Location: ' . APP_URL . '/index.php?page=menu');
+        header('Location: ' . url('menu'));
         exit;
     }
 
@@ -182,13 +182,13 @@ class AuthController {
         Security::requireLogin();
 
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: ' . APP_URL . '/index.php?page=change-password');
+            header('Location: ' . url('change-password'));
             exit;
         }
 
         if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
             $_SESSION['error'] = 'Token keselamatan tidak sah.';
-            header('Location: ' . APP_URL . '/index.php?page=change-password');
+            header('Location: ' . url('change-password'));
             exit;
         }
 
@@ -208,7 +208,7 @@ class AuthController {
 
         if (!empty($errors)) {
             $_SESSION['error'] = implode('<br>', $errors);
-            header('Location: ' . APP_URL . '/index.php?page=change-password');
+            header('Location: ' . url('change-password'));
             exit;
         }
 
@@ -218,7 +218,7 @@ class AuthController {
 
         $_SESSION['success'] = 'Kata laluan berjaya ditukar.';
         Logger::admin("Tukar kata laluan", ['user_id' => Security::currentUserId()]);
-        header('Location: ' . APP_URL . '/index.php?page=change-password');
+        header('Location: ' . url('change-password'));
         exit;
     }
 
@@ -228,11 +228,11 @@ class AuthController {
     private function redirectByRole(): void {
         $role = Security::currentUserRole();
         $url = match ($role) {
-            'superadmin' => APP_URL . '/index.php?page=sales',
-            'admin'      => APP_URL . '/index.php?page=sales',
-            'staff'      => APP_URL . '/index.php?page=kitchen',
-            'buyer'      => APP_URL . '/index.php?page=grocery',
-            default      => APP_URL . '/index.php?page=menu',
+            'superadmin' => url('sales'),
+            'admin'      => url('sales'),
+            'staff'      => url('kitchen'),
+            'buyer'      => url('grocery'),
+            default      => url('menu'),
         };
         header('Location: ' . $url);
         exit;

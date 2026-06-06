@@ -13,6 +13,7 @@ require_once BASE_PATH . 'models/SettingsModel.php';
 $_sModel = new SettingsModel();
 $_storeLogo = $_sModel->get('store_logo', '');
 $_storeName = $_sModel->get('app_name', 'Sistem Order');
+$_favicon = $_sModel->get('app_favicon', '');
 $isAdminRole = $isLoggedIn && in_array($userRole, ['superadmin', 'admin', 'staff', 'cashier']);
 ?>
 <!DOCTYPE html>
@@ -22,6 +23,7 @@ $isAdminRole = $isLoggedIn && in_array($userRole, ['superadmin', 'admin', 'staff
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sistem Order - Pesanan makanan dalam talian">
     <title><?= htmlspecialchars($pageTitle ?? $_storeName) ?></title>
+    <link rel="icon" type="image/png" href="<?= $_favicon ? APP_URL . '/assets/uploads/' . htmlspecialchars($_favicon) : APP_URL . '/assets/favicon.png' ?>">
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css?v=<?= filemtime(BASE_PATH . 'public/assets/css/style.css') ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script>
@@ -50,7 +52,7 @@ document.addEventListener('click', function(e) {
 <!-- Navbar -->
 <nav class="navbar" style="padding-bottom: 0; border-bottom: none;">
     <div class="container" style="padding-bottom: 10px;">
-        <a href="<?= APP_URL ?>/index.php?page=menu" class="navbar-brand">
+        <a href="<?= url('menu') ?>" class="navbar-brand">
             <?php if (!empty($_storeLogo)): ?>
                 <img src="<?= APP_URL ?>/assets/uploads/<?= htmlspecialchars($_storeLogo) ?>" alt="Logo" style="height: 24px; border-radius: 4px; object-fit: contain;">
             <?php else: ?>
@@ -65,17 +67,17 @@ document.addEventListener('click', function(e) {
                         <i class="bi bi-person-circle"></i>
                     </button>
                     <div class="user-dropdown-menu mobile-dropdown-menu" id="userDropdownMenu">
-                        <a href="<?= APP_URL ?>/index.php?page=change-password" class="user-dropdown-item">
+                        <a href="<?= url('change-password') ?>" class="user-dropdown-item">
                             <i class="bi bi-key"></i> Tukar Kata Laluan
                         </a>
                         <div class="user-dropdown-divider"></div>
-                        <a href="<?= APP_URL ?>/index.php?page=logout" class="user-dropdown-item user-dropdown-item-danger">
+                        <a href="<?= url('logout') ?>" class="user-dropdown-item user-dropdown-item-danger">
                             <i class="bi bi-box-arrow-right"></i> Log Keluar
                         </a>
                     </div>
                 </div>
             <?php endif; ?>
-            <a href="<?= APP_URL ?>/index.php?page=cart" class="btn btn-cart-nav">
+            <a href="<?= url('cart') ?>" class="btn btn-cart-nav">
                 <i class="bi bi-cart3"></i>
                 <?php if ($cartCount > 0): ?>
                     <span class="cart-nav-badge"><?= $cartCount ?></span>
@@ -93,32 +95,32 @@ document.addEventListener('click', function(e) {
     <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
         <ul class="sub-navbar-nav">
             <?php if (in_array($userRole, ['superadmin', 'admin'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=sales"><i class="bi bi-graph-up"></i> Dashboard</a></li>
+                <li><a href="<?= url('sales') ?>"><i class="bi bi-graph-up"></i> Dashboard</a></li>
             <?php endif; ?>
 
             <?php if (in_array($userRole, ['superadmin', 'admin', 'staff', 'cashier'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=staff-order"><i class="bi bi-calculator"></i> Pesanan</a></li>
+                <li><a href="<?= url('staff-order') ?>"><i class="bi bi-calculator"></i> Pesanan</a></li>
             <?php endif; ?>
 
             <?php if (in_array($userRole, ['superadmin', 'admin', 'staff', 'cashier'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=kitchen"><i class="bi bi-fire"></i> Dapur</a></li>
+                <li><a href="<?= url('kitchen') ?>"><i class="bi bi-fire"></i> Dapur</a></li>
             <?php endif; ?>
             
             <?php if (in_array($userRole, ['superadmin', 'admin', 'buyer'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=grocery"><i class="bi bi-basket3"></i> Pergi Pasar</a></li>
+                <li><a href="<?= url('grocery') ?>"><i class="bi bi-basket3"></i> Pergi Pasar</a></li>
             <?php endif; ?>
 
             <?php if ($userRole === 'customer'): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=order-history"><i class="bi bi-clock-history"></i> Sejarah</a></li>
+                <li><a href="<?= url('order-history') ?>"><i class="bi bi-clock-history"></i> Sejarah</a></li>
             <?php endif; ?>
 
             <?php if ($userRole === 'superadmin'): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=config"><i class="bi bi-gear-wide-connected"></i> Konfigurasi</a></li>
+                <li><a href="<?= url('config') ?>"><i class="bi bi-gear-wide-connected"></i> Konfigurasi</a></li>
             <?php endif; ?>
 
             <?php if (in_array($userRole, ['superadmin', 'admin'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=manage-users"><i class="bi bi-people"></i> Pengguna</a></li>
-                <li><a href="<?= APP_URL ?>/index.php?page=admin-menu"><i class="bi bi-pencil-square"></i> Urus Menu</a></li>
+                <li><a href="<?= url('manage-users') ?>"><i class="bi bi-people"></i> Pengguna</a></li>
+                <li><a href="<?= url('admin-menu') ?>"><i class="bi bi-pencil-square"></i> Urus Menu</a></li>
             <?php endif; ?>
         </ul>
 
@@ -134,11 +136,11 @@ document.addEventListener('click', function(e) {
                 </div>
             </button>
             <div class="user-dropdown-menu" id="userDropdownMenu">
-                <a href="<?= APP_URL ?>/index.php?page=change-password" class="user-dropdown-item">
+                <a href="<?= url('change-password') ?>" class="user-dropdown-item">
                     <i class="bi bi-key"></i> Tukar Kata Laluan
                 </a>
                 <div class="user-dropdown-divider"></div>
-                <a href="<?= APP_URL ?>/index.php?page=logout" class="user-dropdown-item user-dropdown-item-danger">
+                <a href="<?= url('logout') ?>" class="user-dropdown-item user-dropdown-item-danger">
                     <i class="bi bi-box-arrow-right"></i> Log Keluar
                 </a>
             </div>

@@ -10,9 +10,9 @@ require_once BASE_PATH . 'views/includes/header.php';
             <p>Senarai belanja bahan mentah untuk kedai</p>
         </div>
         <div class="d-flex gap-1">
-            <a href="<?= APP_URL ?>/index.php?page=grocery-auto&days=7" class="btn btn-primary" onclick="showLoading()"><i class="bi bi-magic"></i> Auto-Generate</a>
-            <a href="<?= APP_URL ?>/index.php?page=grocery-create" class="btn btn-secondary"><i class="bi bi-plus"></i> Senarai Manual</a>
-            <a href="<?= APP_URL ?>/index.php?page=grocery-history" class="btn btn-secondary"><i class="bi bi-clock-history"></i> Sejarah</a>
+            <a href="<?= url('grocery-auto?days=7') ?>" class="btn btn-primary" onclick="showLoading()"><i class="bi bi-magic"></i> Auto-Generate</a>
+            <a href="<?= url('grocery-create') ?>" class="btn btn-secondary"><i class="bi bi-plus"></i> Senarai Manual</a>
+            <a href="<?= url('grocery-history') ?>" class="btn btn-secondary"><i class="bi bi-clock-history"></i> Sejarah</a>
         </div>
     </div>
 
@@ -46,8 +46,8 @@ require_once BASE_PATH . 'views/includes/header.php';
                         </div>
                     </div>
                     <div class="card-footer">
-                        <a href="<?= APP_URL ?>/index.php?page=grocery-edit&id=<?= $list['id'] ?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Buka</a>
-                        <a href="<?= APP_URL ?>/index.php?page=grocery-done&id=<?= $list['id'] ?>" class="btn btn-success btn-sm" onclick="return confirm('Tandak senarai ini sebagai selesai?')"><i class="bi bi-check-all"></i> Selesai</a>
+                        <a href="<?= url('grocery-edit?id=' . $list['id']) ?>" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i> Buka</a>
+                        <a href="<?= url('grocery-done?id=' . $list['id']) ?>" class="btn btn-success btn-sm" onclick="return confirm('Tandak senarai ini sebagai selesai?')"><i class="bi bi-check-all"></i> Selesai</a>
                     </div>
                 </div>
             <?php endforeach; ?>

@@ -36,13 +36,9 @@
         <p>&copy; <?= date('Y') ?> Sistem Order. Hak cipta terpelihara.</p>
         <div style="margin-top: 10px;">
             <?php if (isset($isLoggedIn) && $isLoggedIn): ?>
-                <a href="<?= APP_URL ?>/index.php?page=logout" style="color: var(--danger); text-decoration: none; font-size: 0.9rem;">
-                    <i class="bi bi-box-arrow-right"></i> Log Keluar
-                </a>
+                <a href="<?= url('logout') ?>" style="color: var(--danger); text-decoration: none; font-size: 0.9rem;"><i class="bi bi-box-arrow-right"></i> Log Keluar</a>
             <?php else: ?>
-                <a href="<?= APP_URL ?>/index.php?page=login" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;">
-                    <i class="bi bi-person"></i> Log Masuk
-                </a>
+                <a href="<?= url('login') ?>" style="color: var(--text-muted); text-decoration: none; font-size: 0.9rem;"><i class="bi bi-person"></i> Log Masuk</a>
             <?php endif; ?>
         </div>
     </div>

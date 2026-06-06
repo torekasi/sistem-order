@@ -4,7 +4,7 @@
         <div class="auth-logo">🍽️</div>
         <h2>Log Masuk</h2>
         <p class="subtitle">Masukkan maklumat akaun anda</p>
-        <form method="POST" action="<?= APP_URL ?>/index.php?page=auth-login" id="loginForm">
+        <form method="POST" action="<?= url('auth-login') ?>" id="loginForm">
             <?= Security::csrfField() ?>
             <div class="form-group">
                 <label class="form-label">No. Telefon / Email</label>
@@ -26,7 +26,7 @@
                 <i class="bi bi-box-arrow-in-right"></i> Log Masuk
             </button>
         </form>
-        <p class="text-center mt-2 fs-sm text-muted">Belum ada akaun? <a href="<?= APP_URL ?>/index.php?page=register">Daftar di sini</a></p>
+        <p class="text-center mt-2 fs-sm text-muted">Belum ada akaun? <a href="<?= url('register') ?>">Daftar di sini</a></p>
     </div>
 </div>
 <script>

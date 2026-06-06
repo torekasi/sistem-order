@@ -4,7 +4,7 @@
         <div style="text-align:center;font-size:2.5rem;margin-bottom:8px;">🍽️</div>
         <h2>Daftar Akaun</h2>
         <p class="subtitle">Buat akaun baru untuk mula memesan</p>
-        <form method="POST" action="<?= APP_URL ?>/index.php?page=auth-register">
+        <form method="POST" action="<?= url('auth-register') ?>">
             <?= Security::csrfField() ?>
             <div class="form-group">
                 <label class="form-label">Nama Penuh</label>
@@ -28,7 +28,7 @@
             </div>
             <button type="submit" class="btn btn-primary btn-block btn-lg mt-2"><i class="bi bi-person-plus"></i> Daftar</button>
         </form>
-        <p class="text-center mt-2 fs-sm text-muted">Sudah ada akaun? <a href="<?= APP_URL ?>/index.php?page=login">Log masuk</a></p>
+        <p class="text-center mt-2 fs-sm text-muted">Sudah ada akaun? <a href="<?= url('login') ?>">Log masuk</a></p>
     </div>
 </div>
 <?php require_once BASE_PATH . 'views/includes/footer.php'; ?>
