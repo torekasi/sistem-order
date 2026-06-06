@@ -1,9 +1,16 @@
 <?php
 /**
  * =========================================================
- * SISTEM ORDER - Root Redirect
+ * SISTEM ORDER - Root Entry Point
  * =========================================================
- * Fail ini mengalihkan pengguna ke dashboard utama.
+ * When document root points here (not to public/), this file
+ * boots the application directly — no .htaccess dependency.
  */
-header('Location: public/index.php?page=menu');
-exit;
+define('BASE_PATH', __DIR__ . DIRECTORY_SEPARATOR);
+require_once BASE_PATH . '.config.php';
+require_once BASE_PATH . 'utils/Logger.php';
+require_once BASE_PATH . 'utils/Security.php';
+initSession();
+setSecurityHeaders();
+Logger::init();
+require_once BASE_PATH . 'public/index.php';

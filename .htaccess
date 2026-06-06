@@ -5,4 +5,4 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Redirect semua ke public/index.php
-RewriteRule ^(.*)$ public/index.php [L]
+RewriteRule ^(.*)$ public/index.php [QSA,L]
