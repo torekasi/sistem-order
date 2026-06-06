@@ -1,5 +1,11 @@
 # Changelog - Sistem Order
 
+## 2026-06-07
+
+### Fixed
+- **Call to undefined function url():** Moved the `url()` helper function from `.config.php` (which is gitignored) to a new tracked file `utils/Helpers.php`. This ensures the function is always available after a `git pull` on cPanel, even if the local configuration file is not updated.
+- **Improved Error Visibility:** Enhanced the diagnostic output in `public/index.php` and root `index.php` to display full error details for easier troubleshooting on production servers.
+
 ## 2026-06-06
 
 ### Fixed
