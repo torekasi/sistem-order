@@ -6,20 +6,20 @@
  * Semua request masuk melalui fail ini.
  */
 
-// Define base path
-define('BASE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
+// Define base path (skip if already defined by root index.php)
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
+}
 
-// Load konfigurasi
-require_once BASE_PATH . '.config.php';
-
-// Load utiliti
-require_once BASE_PATH . 'utils/Logger.php';
-require_once BASE_PATH . 'utils/Security.php';
-
-// Inisialisasi
-initSession();
-setSecurityHeaders();
-Logger::init();
+// Skip bootstrap if root index.php already handled it
+if (!defined('BOOTED_FROM_ROOT')) {
+    require_once BASE_PATH . '.config.php';
+    require_once BASE_PATH . 'utils/Logger.php';
+    require_once BASE_PATH . 'utils/Security.php';
+    initSession();
+    setSecurityHeaders();
+    Logger::init();
+}
 
 // Dapatkan halaman yang diminta
 // Sokong dua format: ?page=xxx ATAU URL pretty /xxx (via .htaccess rewrite)

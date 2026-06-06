@@ -13,4 +13,5 @@ require_once BASE_PATH . 'utils/Security.php';
 initSession();
 setSecurityHeaders();
 Logger::init();
+define('BOOTED_FROM_ROOT', true);
 require_once BASE_PATH . 'public/index.php';
