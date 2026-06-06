@@ -70,6 +70,37 @@ document.addEventListener('click', function(e) {
 <!-- Sub Navbar / User Role Menu -->
 <div class="user-sub-navbar">
     <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+        <ul class="sub-navbar-nav">
+            <?php if (in_array($userRole, ['superadmin', 'admin'])): ?>
+                <li><a href="<?= APP_URL ?>/index.php?page=sales"><i class="bi bi-graph-up"></i> Dashboard</a></li>
+            <?php endif; ?>
+
+            <?php if (in_array($userRole, ['superadmin', 'admin', 'staff', 'cashier'])): ?>
+                <li><a href="<?= APP_URL ?>/index.php?page=staff-order"><i class="bi bi-calculator"></i> Pesanan</a></li>
+            <?php endif; ?>
+
+            <?php if (in_array($userRole, ['superadmin', 'admin', 'staff', 'cashier'])): ?>
+                <li><a href="<?= APP_URL ?>/index.php?page=kitchen"><i class="bi bi-fire"></i> Dapur</a></li>
+            <?php endif; ?>
+            
+            <?php if (in_array($userRole, ['superadmin', 'admin', 'buyer'])): ?>
+                <li><a href="<?= APP_URL ?>/index.php?page=grocery"><i class="bi bi-basket3"></i> Pergi Pasar</a></li>
+            <?php endif; ?>
+
+            <?php if ($userRole === 'customer'): ?>
+                <li><a href="<?= APP_URL ?>/index.php?page=order-history"><i class="bi bi-clock-history"></i> Sejarah</a></li>
+            <?php endif; ?>
+
+            <?php if ($userRole === 'superadmin'): ?>
+                <li><a href="<?= APP_URL ?>/index.php?page=config"><i class="bi bi-gear-wide-connected"></i> Konfigurasi</a></li>
+            <?php endif; ?>
+
+            <?php if (in_array($userRole, ['superadmin', 'admin'])): ?>
+                <li><a href="<?= APP_URL ?>/index.php?page=manage-users"><i class="bi bi-people"></i> Pengguna</a></li>
+                <li><a href="<?= APP_URL ?>/index.php?page=admin-menu"><i class="bi bi-pencil-square"></i> Urus Menu</a></li>
+            <?php endif; ?>
+        </ul>
+
         <div class="user-dropdown">
             <button class="user-dropdown-trigger" onclick="toggleUserDropdown()">
                 <div class="user-dropdown-info">
@@ -90,38 +121,7 @@ document.addEventListener('click', function(e) {
                     <i class="bi bi-box-arrow-right"></i> Log Keluar
                 </a>
             </div>
-        </div>
-
-<ul class="sub-navbar-nav">
-            <?php if ($userRole === 'superadmin'): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=config"><i class="bi bi-gear-wide-connected"></i> Konfigurasi</a></li>
-            <?php endif; ?>
-
-            <?php if (in_array($userRole, ['superadmin', 'admin'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=manage-users"><i class="bi bi-people"></i> Pengguna</a></li>
-            <?php endif; ?>
-
-            <?php if (in_array($userRole, ['superadmin', 'admin', 'staff', 'cashier'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=staff-order"><i class="bi bi-calculator"></i> Cashier</a></li>
-            <?php endif; ?>
-
-            <?php if (in_array($userRole, ['superadmin', 'admin'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=sales"><i class="bi bi-graph-up"></i> Jualan</a></li>
-                <li><a href="<?= APP_URL ?>/index.php?page=admin-menu"><i class="bi bi-pencil-square"></i> Urus Menu</a></li>
-            <?php endif; ?>
-            
-            <?php if (in_array($userRole, ['superadmin', 'admin', 'staff', 'cashier'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=kitchen"><i class="bi bi-fire"></i> Dapur</a></li>
-            <?php endif; ?>
-            
-            <?php if (in_array($userRole, ['superadmin', 'admin', 'buyer'])): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=grocery"><i class="bi bi-basket3"></i> Pergi Pasar</a></li>
-            <?php endif; ?>
-
-            <?php if ($userRole === 'customer'): ?>
-                <li><a href="<?= APP_URL ?>/index.php?page=order-history"><i class="bi bi-clock-history"></i> Sejarah</a></li>
-            <?php endif; ?>
-        </ul>
+</div>
     </div>
 </div>
 <?php endif; ?>
