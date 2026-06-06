@@ -1,5 +1,4 @@
 RewriteEngine On
-RewriteBase /
 
 # Elak akses ke fail .config.php dan fail tersembunyi
 RewriteRule ^\.config\.php$ - [F,L]
@@ -14,10 +13,3 @@ RewriteRule ^(.*)$ index.php [QSA,L]
 
 # Elak directory listing
 Options -Indexes
-
-# Security headers
-<IfModule mod_headers.c>
-    Header set X-Frame-Options "DENY"
-    Header set X-Content-Type-Options "nosniff"
-    Header set X-XSS-Protection "1; mode=block"
-</IfModule>

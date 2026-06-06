@@ -1,20 +1,21 @@
-# =========================================================
-# Root .htaccess - Forward all requests to /public folder
-# Untuk deployment cPanel di mana repo ada di public_html/
-# =========================================================
-
 RewriteEngine On
+RewriteBase /
 
 # Elak akses ke fail .config.php dan fail tersembunyi
 RewriteRule ^\.config\.php$ - [F,L]
 RewriteRule ^\.  - [F,L]
 
-# Elak akses langsung ke folder sensitif
-RewriteRule ^(controllers|models|utils|views|logs|docs)(/|$) - [F,L]
-
-# Jika request bukan ke /public, forward ke /public
-RewriteCond %{REQUEST_URI} !^/public/
-RewriteRule ^(.*)$ public/$1 [L]
+# Jika fail atau direktori wujud dalam public/, guna terus
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [QSA,L]
 
 # Elak directory listing
 Options -Indexes
+
+# Security headers
+<IfModule mod_headers.c>
+    Header set X-Frame-Options "DENY"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-XSS-Protection "1; block"
+</IfModule>
