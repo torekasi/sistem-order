@@ -75,14 +75,12 @@ document.addEventListener('click', function(e) {
                     </div>
                 </div>
             <?php endif; ?>
-            <?php if (!$isAdminRole): ?>
-                <a href="<?= APP_URL ?>/index.php?page=cart" class="btn btn-cart-nav">
-                    <i class="bi bi-cart3"></i>
-                    <?php if ($cartCount > 0): ?>
-                        <span class="cart-nav-badge"><?= $cartCount ?></span>
-                    <?php endif; ?>
-                </a>
-            <?php endif; ?>
+            <a href="<?= APP_URL ?>/index.php?page=cart" class="btn btn-cart-nav">
+                <i class="bi bi-cart3"></i>
+                <?php if ($cartCount > 0): ?>
+                    <span class="cart-nav-badge"><?= $cartCount ?></span>
+                <?php endif; ?>
+            </a>
         </div>
     </div>
 </nav>

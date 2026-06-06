@@ -27,7 +27,7 @@ require_once BASE_PATH . 'views/includes/header.php';
     <style>
         .category-tabs-sticky {
             position: sticky;
-            top: 59px; /* Right below the 60px header */
+            top: 0;
             z-index: 900;
             background: var(--bg-dark);
             padding: 12px 20px 8px;
