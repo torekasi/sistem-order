@@ -11,7 +11,7 @@ echo '<h2>1. PHP Version</h2>';
 echo '<span class="info">' . phpversion() . '</span><br>';
 
 echo '<h2>2. File Structure</h2>';
-$files = ['.config.php', 'index.php', 'utils/Logger.php', 'utils/Security.php', 'public/index.php', 'models/SettingsModel.php', 'models/MenuModel.php', 'controllers/MenuController.php', 'views/includes/header.php', 'views/menu.php'];
+$files = ['.config.php', 'index.php', 'utils/Helpers.php', 'utils/Logger.php', 'utils/Security.php', 'public/index.php', 'models/SettingsModel.php', 'models/MenuModel.php', 'controllers/MenuController.php', 'views/includes/header.php', 'views/menu.php'];
 foreach ($files as $f) {
     if (file_exists(__DIR__ . '/' . $f)) {
         echo "<span class='ok'>[OK]</span> $f<br>";
@@ -57,6 +57,7 @@ try {
 }
 
 echo '<h2>6. Model Instantiation Test</h2>';
+require_once __DIR__ . '/utils/Helpers.php';
 require_once __DIR__ . '/utils/Logger.php';
 require_once __DIR__ . '/utils/Security.php';
 

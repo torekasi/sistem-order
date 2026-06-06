@@ -18,6 +18,7 @@ if (!defined('BASE_PATH')) {
 // Skip bootstrap if root index.php already handled it
 if (!defined('BOOTED_FROM_ROOT')) {
     require_once BASE_PATH . '.config.php';
+    require_once BASE_PATH . 'utils/Helpers.php';
     require_once BASE_PATH . 'utils/Logger.php';
     require_once BASE_PATH . 'utils/Security.php';
 

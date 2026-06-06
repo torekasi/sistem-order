@@ -14,6 +14,7 @@ if (PHP_VERSION_ID < 70200) {
 define('BASE_PATH', __DIR__ . DIRECTORY_SEPARATOR);
 
 require_once BASE_PATH . '.config.php';
+require_once BASE_PATH . 'utils/Helpers.php';
 require_once BASE_PATH . 'utils/Logger.php';
 require_once BASE_PATH . 'utils/Security.php';
 
