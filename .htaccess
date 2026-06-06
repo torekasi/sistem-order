@@ -4,6 +4,9 @@ Options -MultiViews +FollowSymLinks
 RewriteEngine On
 RewriteBase /
 
+# Allow diagnostic.php to be accessed directly
+RewriteRule ^diagnostic\.php$ - [L]
+
 # Serve static assets from public/ directory
 RewriteRule ^assets/(.*)$ public/assets/$1 [L]
 
