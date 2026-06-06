@@ -3,6 +3,8 @@
 ## 2026-06-06
 
 ### Fixed
+- **cPanel blank white screen / CSS not loading:** Root `.htaccess` now proxies `/assets/*` requests to `public/assets/*` before the generic router rewrite, so static CSS/JS files are served correctly on cPanel where the document root is the project root (not `public/`)
+- **cPanel 500 Error - PHP 7.x Compatibility:** Fixed ALL remaining PHP 8+ typed class properties across all 8 controllers and models that were missed in previous fix pass
 - **cPanel 500 Error - PHP 7.x Compatibility:** Fixed multiple PHP 8+ syntax causing fatal errors on cPanel hosts running PHP 7.2-7.3:
   - Removed typed class properties (`private PDO $db`) from all 7 model files
   - Replaced `match()` expressions with `switch`/array lookup in AuthController and SalesModel

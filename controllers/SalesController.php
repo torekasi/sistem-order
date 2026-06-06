@@ -9,7 +9,7 @@ require_once BASE_PATH . 'models/SalesModel.php';
 
 class SalesController {
 
-    private SalesModel $salesModel;
+    private $salesModel;
 
     public function __construct() {
         $this->salesModel = new SalesModel();

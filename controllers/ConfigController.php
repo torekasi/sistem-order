@@ -10,7 +10,7 @@ require_once BASE_PATH . 'models/UserModel.php';
 
 class ConfigController {
 
-    private SettingsModel $settingsModel;
+    private $settingsModel;
 
     public function __construct() {
         $this->settingsModel = new SettingsModel();

@@ -11,8 +11,8 @@ require_once BASE_PATH . 'models/PaymentModel.php';
 
 class OrderController {
 
-    private OrderModel $orderModel;
-    private MenuModel $menuModel;
+    private $orderModel;
+    private $menuModel;
 
     public function __construct() {
         $this->orderModel = new OrderModel();

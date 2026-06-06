@@ -9,7 +9,7 @@ require_once BASE_PATH . 'models/MenuModel.php';
 
 class MenuController {
 
-    private MenuModel $menuModel;
+    private $menuModel;
 
     public function __construct() {
         $this->menuModel = new MenuModel();

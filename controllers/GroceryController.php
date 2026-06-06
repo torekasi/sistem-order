@@ -9,7 +9,7 @@ require_once BASE_PATH . 'models/GroceryModel.php';
 
 class GroceryController {
 
-    private GroceryModel $groceryModel;
+    private $groceryModel;
 
     public function __construct() {
         $this->groceryModel = new GroceryModel();

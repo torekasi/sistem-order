@@ -9,7 +9,7 @@ require_once BASE_PATH . 'models/UserModel.php';
 
 class AuthController {
 
-    private UserModel $userModel;
+    private $userModel;
 
     public function __construct() {
         $this->userModel = new UserModel();

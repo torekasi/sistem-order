@@ -10,8 +10,8 @@ require_once BASE_PATH . 'models/OrderModel.php';
 
 class PaymentController {
 
-    private PaymentModel $paymentModel;
-    private OrderModel $orderModel;
+    private $paymentModel;
+    private $orderModel;
 
     public function __construct() {
         $this->paymentModel = new PaymentModel();
