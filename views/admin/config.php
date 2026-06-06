@@ -12,9 +12,11 @@ $activeGroup = Security::sanitize($_GET['group'] ?? '');
 
     <!-- Nav Group Tabs -->
     <div class="d-flex gap-1 mb-2" style="flex-wrap:wrap;">
-        <?php foreach ($settingsByGroup as $group => $settings): ?>
+        <?php foreach ($settingsByGroup as $group => $settings):
+        $groupKeys = array_keys($settingsByGroup);
+        $firstGroup = $groupKeys[0] ?? ''; ?>
         <a href="<?= APP_URL ?>/index.php?page=config&group=<?= $group ?>" 
-           class="btn <?= ($activeGroup === $group || (!$activeGroup && $group === array_key_first($settingsByGroup))) ? 'btn-primary' : 'btn-secondary' ?>" 
+           class="btn <?= ($activeGroup === $group || (!$activeGroup && $group === $firstGroup)) ? 'btn-primary' : 'btn-secondary' ?>" 
            style="font-size:0.85rem;">
             <?= htmlspecialchars($groupLabels[$group] ?? ucfirst($group)) ?>
         </a>
@@ -27,7 +29,8 @@ $activeGroup = Security::sanitize($_GET['group'] ?? '');
 
         <?php 
         foreach ($settingsByGroup as $group => $settings):
-            $isActive = ($activeGroup === $group || (!$activeGroup && $group === array_key_first($settingsByGroup)));
+            $groupKeys = array_keys($settingsByGroup);
+            $isActive = ($activeGroup === $group || (!$activeGroup && $group === $groupKeys[0]));
             if (!$isActive) continue;
         ?>
         <div class="card mb-2">
