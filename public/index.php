@@ -112,6 +112,8 @@ $routes = [
     'delete-user'        => ['controller' => 'ConfigController',  'action' => 'deleteUser'],
     'add-user'           => ['controller' => 'ConfigController',  'action' => 'addUser'],
     'csrf-token'         => ['controller' => 'AuthController',    'action' => 'getCsrfToken'],
+    'change-password'    => ['controller' => 'AuthController',    'action' => 'showChangePassword'],
+    'change-password-save' => ['controller' => 'AuthController',  'action' => 'processChangePassword'],
 ];
 
 // =========================================================

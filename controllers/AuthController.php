@@ -167,6 +167,62 @@ class AuthController {
     }
 
     /**
+     * Papar halaman tukar kata laluan
+     */
+    public function showChangePassword(): void {
+        Security::requireLogin();
+        $pageTitle = 'Tukar Kata Laluan - Sistem Order';
+        require_once BASE_PATH . 'views/change-password.php';
+    }
+
+    /**
+     * Proses tukar kata laluan
+     */
+    public function processChangePassword(): void {
+        Security::requireLogin();
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . APP_URL . '/index.php?page=change-password');
+            exit;
+        }
+
+        if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
+            $_SESSION['error'] = 'Token keselamatan tidak sah.';
+            header('Location: ' . APP_URL . '/index.php?page=change-password');
+            exit;
+        }
+
+        $currentPassword = $_POST['kata_laluan_semasa'] ?? '';
+        $newPassword = $_POST['kata_laluan_baru'] ?? '';
+        $confirmPassword = $_POST['kata_laluan_ulang'] ?? '';
+
+        $errors = [];
+        if (empty($currentPassword)) $errors[] = 'Kata laluan semasa diperlukan.';
+        if (strlen($newPassword) < 6) $errors[] = 'Kata laluan baru mestilah sekurang-kurangnya 6 aksara.';
+        if ($newPassword !== $confirmPassword) $errors[] = 'Kata laluan baru tidak sepadan.';
+
+        // Verify current password
+        if (!$this->userModel->verifyPassword(Security::currentUserId(), $currentPassword)) {
+            $errors[] = 'Kata laluan semasa tidak betul.';
+        }
+
+        if (!empty($errors)) {
+            $_SESSION['error'] = implode('<br>', $errors);
+            header('Location: ' . APP_URL . '/index.php?page=change-password');
+            exit;
+        }
+
+        // Update password
+        $hash = Security::hashPassword($newPassword);
+        $this->userModel->updateUser(Security::currentUserId(), ['kata_laluan' => $hash]);
+
+        $_SESSION['success'] = 'Kata laluan berjaya ditukar.';
+        Logger::admin("Tukar kata laluan", ['user_id' => Security::currentUserId()]);
+        header('Location: ' . APP_URL . '/index.php?page=change-password');
+        exit;
+    }
+
+    /**
      * Redirect mengikut peranan
      */
     private function redirectByRole(): void {

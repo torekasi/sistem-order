@@ -23,6 +23,18 @@ $_storeName = $_sModel->get('app_name', 'Sistem Order');
     <title><?= htmlspecialchars($pageTitle ?? $_storeName) ?></title>
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css?v=<?= filemtime(BASE_PATH . 'public/assets/css/style.css') ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script>
+function toggleUserDropdown() {
+    document.querySelector('.user-dropdown').classList.toggle('active');
+}
+
+document.addEventListener('click', function(e) {
+    const dd = document.querySelector('.user-dropdown');
+    if (dd && !dd.contains(e.target)) {
+        dd.classList.remove('active');
+    }
+});
+</script>
 </head>
 <body>
 
@@ -52,12 +64,29 @@ $_storeName = $_sModel->get('app_name', 'Sistem Order');
 <!-- Sub Navbar / User Role Menu -->
 <div class="user-sub-navbar">
     <div class="container" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-        <div class="user-welcome" style="font-size: 0.85rem; color: var(--text-secondary); white-space: nowrap;">
-            <i class="bi bi-person-circle"></i> Hai, <strong><?= htmlspecialchars($userName) ?></strong>
-            <span class="badge" style="background:var(--primary-glow); color:var(--primary); margin-left:5px; font-size:0.65rem; padding: 2px 6px;"><?= strtoupper($userRole) ?></span>
+        <div class="user-dropdown">
+            <button class="user-dropdown-trigger" onclick="toggleUserDropdown()">
+                <div class="user-dropdown-info">
+                    <span class="user-avatar"><i class="bi bi-person-circle"></i></span>
+                    <div class="user-dropdown-text">
+                        <strong><?= htmlspecialchars($userName) ?></strong>
+                        <span class="user-dropdown-role"><?= strtoupper($userRole) ?></span>
+                    </div>
+                    <i class="bi bi-chevron-down user-dropdown-arrow"></i>
+                </div>
+            </button>
+            <div class="user-dropdown-menu" id="userDropdownMenu">
+                <a href="<?= APP_URL ?>/index.php?page=change-password" class="user-dropdown-item">
+                    <i class="bi bi-key"></i> Tukar Kata Laluan
+                </a>
+                <div class="user-dropdown-divider"></div>
+                <a href="<?= APP_URL ?>/index.php?page=logout" class="user-dropdown-item user-dropdown-item-danger">
+                    <i class="bi bi-box-arrow-right"></i> Log Keluar
+                </a>
+            </div>
         </div>
-        
-        <ul class="sub-navbar-nav">
+
+<ul class="sub-navbar-nav">
             <?php if ($userRole === 'superadmin'): ?>
                 <li><a href="<?= APP_URL ?>/index.php?page=config"><i class="bi bi-gear-wide-connected"></i> Konfigurasi</a></li>
             <?php endif; ?>

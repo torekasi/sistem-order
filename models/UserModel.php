@@ -85,12 +85,22 @@ class UserModel {
     }
 
     /**
+     * Verify user password by ID
+     */
+    public function verifyPassword(int $id, string $password): bool {
+        $stmt = $this->db->prepare("SELECT kata_laluan FROM users WHERE id = ?");
+        $stmt->execute([$id]);
+        $row = $stmt->fetch();
+        return $row ? Security::verifyPassword($password, $row['kata_laluan']) : false;
+    }
+
+    /**
      * Kemaskini pengguna
      */
     public function updateUser(int $id, array $data): bool {
         $fields = [];
         $params = [];
-        foreach (['nama', 'email', 'telefon', 'role', 'status'] as $key) {
+        foreach (['nama', 'email', 'telefon', 'role', 'status', 'kata_laluan'] as $key) {
             if (isset($data[$key])) {
                 $fields[] = "{$key} = ?";
                 $params[] = $data[$key];
