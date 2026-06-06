@@ -7,7 +7,7 @@
 
 class GroceryModel {
 
-    private PDO $db;
+    private $db;
 
     public function __construct() {
         $this->db = getDB();
@@ -16,7 +16,7 @@ class GroceryModel {
     /**
      * Buat senarai belanja baru
      */
-    public function createList(string $tajuk, string $tarikh, int $createdBy, string $nota = ''): int|false {
+    public function createList(string $tajuk, string $tarikh, int $createdBy, string $nota = '') {
         try {
             $stmt = $this->db->prepare("
                 INSERT INTO grocery_lists (tajuk, tarikh_belanja, created_by, nota) VALUES (?, ?, ?, ?)
@@ -32,7 +32,7 @@ class GroceryModel {
     /**
      * Tambah item ke senarai
      */
-    public function addItem(int $listId, string $nama, float $kuantiti, string $unit, float $hargaAnggaran = 0, string $nota = ''): int|false {
+    public function addItem(int $listId, string $nama, float $kuantiti, string $unit, float $hargaAnggaran = 0, string $nota = '') {
         try {
             $stmt = $this->db->prepare("
                 INSERT INTO grocery_items (list_id, nama, kuantiti, unit, harga_anggaran, nota) VALUES (?, ?, ?, ?, ?, ?)
@@ -83,7 +83,7 @@ class GroceryModel {
     /**
      * Dapatkan item berdasarkan ID
      */
-    public function getItemById(int $id): array|false {
+    public function getItemById(int $id) {
         $stmt = $this->db->prepare("SELECT * FROM grocery_items WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch();
@@ -92,7 +92,7 @@ class GroceryModel {
     /**
      * Dapatkan senarai belanja aktif
      */
-    public function getActiveList(): array|false {
+    public function getActiveList() {
         $stmt = $this->db->query("
             SELECT gl.*, u.nama as dibuat_oleh 
             FROM grocery_lists gl 
@@ -130,7 +130,7 @@ class GroceryModel {
     /**
      * Dapatkan senarai berdasarkan ID
      */
-    public function getListById(int $id): array|false {
+    public function getListById(int $id) {
         $stmt = $this->db->prepare("
             SELECT gl.*, u.nama as dibuat_oleh 
             FROM grocery_lists gl 
@@ -169,7 +169,7 @@ class GroceryModel {
     /**
      * Auto-generate senarai berdasarkan item popular
      */
-    public function autoGenerateFromSales(int $createdBy, int $days = 7): int|false {
+    public function autoGenerateFromSales(int $createdBy, int $days = 7) {
         try {
             $this->db->beginTransaction();
 
@@ -232,7 +232,7 @@ class GroceryModel {
     /**
      * Salin senarai lama
      */
-    public function copyList(int $sourceListId, int $createdBy): int|false {
+    public function copyList(int $sourceListId, int $createdBy) {
         try {
             $source = $this->getListById($sourceListId);
             if (!$source) return false;

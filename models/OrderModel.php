@@ -7,7 +7,7 @@
 
 class OrderModel {
 
-    private PDO $db;
+    private $db;
 
     public function __construct() {
         $this->db = getDB();
@@ -16,7 +16,7 @@ class OrderModel {
     /**
      * Buat pesanan baru
      */
-    public function createOrder(array $orderData, array $items): int|false {
+    public function createOrder(array $orderData, array $items) {
         try {
             $this->db->beginTransaction();
 
@@ -65,7 +65,7 @@ class OrderModel {
     /**
      * Dapatkan pesanan berdasarkan ID
      */
-    public function getOrderById(int $id): array|false {
+    public function getOrderById(int $id) {
         $stmt = $this->db->prepare("SELECT * FROM orders WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch();
@@ -74,7 +74,7 @@ class OrderModel {
     /**
      * Dapatkan pesanan berdasarkan nombor pesanan
      */
-    public function getOrderByNumber(string $noPesanan): array|false {
+    public function getOrderByNumber(string $noPesanan) {
         $stmt = $this->db->prepare("SELECT * FROM orders WHERE no_pesanan = ?");
         $stmt->execute([$noPesanan]);
         return $stmt->fetch();

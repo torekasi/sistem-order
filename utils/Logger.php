@@ -7,7 +7,7 @@
 
 class Logger {
     
-    private static string $logDir;
+    private static $logDir;
 
     /**
      * Inisialisasi direktori log

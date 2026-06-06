@@ -7,7 +7,7 @@
 
 class SettingsModel {
 
-    private PDO $db;
+    private $db;
 
     public function __construct() {
         $this->db = getDB();

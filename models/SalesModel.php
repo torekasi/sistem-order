@@ -7,7 +7,7 @@
 
 class SalesModel {
 
-    private PDO $db;
+    private $db;
 
     public function __construct() {
         $this->db = getDB();
@@ -69,13 +69,13 @@ class SalesModel {
      * Item paling laris
      */
     public function getTopSellingItems(int $limit = 10, string $period = 'month'): array {
-        $dateCondition = match ($period) {
+        $dateMap = [
             'today' => "DATE(o.created_at) = CURDATE()",
             'week' => "o.created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)",
             'month' => "MONTH(o.created_at) = MONTH(CURDATE()) AND YEAR(o.created_at) = YEAR(CURDATE())",
             'year' => "YEAR(o.created_at) = YEAR(CURDATE())",
-            default => "MONTH(o.created_at) = MONTH(CURDATE())",
-        };
+        ];
+        $dateCondition = isset($dateMap[$period]) ? $dateMap[$period] : "MONTH(o.created_at) = MONTH(CURDATE())";
 
         $stmt = $this->db->prepare("
             SELECT 
@@ -136,13 +136,13 @@ class SalesModel {
      * Ringkasan aliran tunai (cash flow)
      */
     public function getCashFlowSummary(string $period = 'month'): array {
-        $dateCondition = match ($period) {
+        $dateMap = [
             'today' => "DATE(p.created_at) = CURDATE()",
             'week' => "p.created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)",
             'month' => "MONTH(p.created_at) = MONTH(CURDATE()) AND YEAR(p.created_at) = YEAR(CURDATE())",
             'year' => "YEAR(p.created_at) = YEAR(CURDATE())",
-            default => "MONTH(p.created_at) = MONTH(CURDATE())",
-        };
+        ];
+        $dateCondition = isset($dateMap[$period]) ? $dateMap[$period] : "MONTH(p.created_at) = MONTH(CURDATE())";
 
         $stmt = $this->db->prepare("
             SELECT 

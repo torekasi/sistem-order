@@ -6,6 +6,10 @@
  * Semua request masuk melalui fail ini.
  */
 
+if (PHP_VERSION_ID < 70200) {
+    die('PHP 7.2 or higher is required. Your server is running PHP ' . phpversion());
+}
+
 // Define base path (skip if already defined by root index.php)
 if (!defined('BASE_PATH')) {
     define('BASE_PATH', dirname(__DIR__) . DIRECTORY_SEPARATOR);
@@ -16,9 +20,20 @@ if (!defined('BOOTED_FROM_ROOT')) {
     require_once BASE_PATH . '.config.php';
     require_once BASE_PATH . 'utils/Logger.php';
     require_once BASE_PATH . 'utils/Security.php';
-    initSession();
-    setSecurityHeaders();
-    Logger::init();
+
+    try {
+        initSession();
+        setSecurityHeaders();
+        Logger::init();
+    } catch (\Throwable $e) {
+        if (ini_get('display_errors')) {
+            echo '<pre>Bootstrap Error: ' . htmlspecialchars($e->getMessage()) . '</pre>';
+        }
+        error_log('Bootstrap Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+        http_response_code(500);
+        echo '<h1>500 - Internal Server Error</h1><p>Please check the error log or contact administrator.</p>';
+        exit;
+    }
 }
 
 // Dapatkan halaman yang diminta
@@ -119,28 +134,38 @@ $routes = [
 // =========================================================
 // DISPATCH
 // =========================================================
-if (isset($routes[$page])) {
-    $route = $routes[$page];
-    $controllerFile = BASE_PATH . 'controllers/' . $route['controller'] . '.php';
+try {
+    if (isset($routes[$page])) {
+        $route = $routes[$page];
+        $controllerFile = BASE_PATH . 'controllers/' . $route['controller'] . '.php';
 
-    if (file_exists($controllerFile)) {
-        require_once $controllerFile;
-        $controller = new $route['controller']();
-        $method = $route['action'];
+        if (file_exists($controllerFile)) {
+            require_once $controllerFile;
+            $controller = new $route['controller']();
+            $method = $route['action'];
 
-        if (method_exists($controller, $method)) {
-            $controller->$method();
+            if (method_exists($controller, $method)) {
+                $controller->$method();
+            } else {
+                http_response_code(404);
+                echo '<h1>404 - Kaedah tidak ditemui</h1>';
+                Logger::error("Method not found: {$route['controller']}::{$method}");
+            }
         } else {
             http_response_code(404);
-            echo '<h1>404 - Kaedah tidak ditemui</h1>';
-            Logger::error("Method not found: {$route['controller']}::{$method}");
+            echo '<h1>404 - Controller tidak ditemui</h1>';
+            Logger::error("Controller not found: {$controllerFile}");
         }
     } else {
         http_response_code(404);
-        echo '<h1>404 - Controller tidak ditemui</h1>';
-        Logger::error("Controller not found: {$controllerFile}");
+        echo '<h1>404 - Halaman tidak ditemui</h1>';
     }
-} else {
-    http_response_code(404);
-    echo '<h1>404 - Halaman tidak ditemui</h1>';
+} catch (\Throwable $e) {
+    if (ini_get('display_errors')) {
+        echo '<pre>Runtime Error: ' . htmlspecialchars($e->getMessage()) . "\n";
+        echo 'File: ' . htmlspecialchars($e->getFile()) . ':' . $e->getLine() . '</pre>';
+    }
+    error_log('Runtime Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
+    http_response_code(500);
+    echo '<h1>500 - Internal Server Error</h1><p>An unexpected error occurred. Please try again later.</p>';
 }

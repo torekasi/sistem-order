@@ -227,13 +227,21 @@ class AuthController {
      */
     private function redirectByRole(): void {
         $role = Security::currentUserRole();
-        $url = match ($role) {
-            'superadmin' => url('sales'),
-            'admin'      => url('sales'),
-            'staff'      => url('kitchen'),
-            'buyer'      => url('grocery'),
-            default      => url('menu'),
-        };
+        switch ($role) {
+            case 'superadmin':
+            case 'admin':
+                $url = url('sales');
+                break;
+            case 'staff':
+                $url = url('kitchen');
+                break;
+            case 'buyer':
+                $url = url('grocery');
+                break;
+            default:
+                $url = url('menu');
+                break;
+        }
         header('Location: ' . $url);
         exit;
     }

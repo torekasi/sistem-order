@@ -7,7 +7,7 @@
 
 class PaymentModel {
 
-    private PDO $db;
+    private $db;
 
     public function __construct() {
         $this->db = getDB();
@@ -16,7 +16,7 @@ class PaymentModel {
     /**
      * Buat rekod bayaran
      */
-    public function createPayment(int $orderId, float $jumlah, string $kaedah = 'tunai'): int|false {
+    public function createPayment(int $orderId, float $jumlah, string $kaedah = 'tunai') {
         try {
             $rujukan = 'PAY' . date('ymd') . strtoupper(substr(bin2hex(random_bytes(3)), 0, 6));
             $stmt = $this->db->prepare("
@@ -33,7 +33,7 @@ class PaymentModel {
     /**
      * Dapatkan bayaran berdasarkan pesanan
      */
-    public function getPaymentByOrder(int $orderId): array|false {
+    public function getPaymentByOrder(int $orderId) {
         $stmt = $this->db->prepare("SELECT * FROM payments WHERE order_id = ?");
         $stmt->execute([$orderId]);
         return $stmt->fetch();

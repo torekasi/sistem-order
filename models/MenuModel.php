@@ -7,7 +7,7 @@
 
 class MenuModel {
 
-    private PDO $db;
+    private $db;
 
     public function __construct() {
         $this->db = getDB();
@@ -28,7 +28,7 @@ class MenuModel {
     /**
      * Tambah kategori baru
      */
-    public function addCategory(string $nama, string $penerangan = '', int $urutan = 0): int|false {
+    public function addCategory(string $nama, string $penerangan = '', int $urutan = 0) {
         try {
             $stmt = $this->db->prepare("INSERT INTO categories (nama, penerangan, urutan) VALUES (?, ?, ?)");
             $stmt->execute([$nama, $penerangan, $urutan]);
@@ -73,7 +73,7 @@ class MenuModel {
     /**
      * Dapatkan item berdasarkan ID
      */
-    public function getItemById(int $id): array|false {
+    public function getItemById(int $id) {
         $stmt = $this->db->prepare("
             SELECT mi.*, c.nama AS kategori_nama 
             FROM menu_items mi 
@@ -116,7 +116,7 @@ class MenuModel {
     /**
      * Tambah item menu
      */
-    public function addItem(int $categoryId, string $nama, string $penerangan, float $harga, string $gambar = '', int $popular = 0): int|false {
+    public function addItem(int $categoryId, string $nama, string $penerangan, float $harga, string $gambar = '', int $popular = 0) {
         try {
             $stmt = $this->db->prepare("
                 INSERT INTO menu_items (category_id, nama, penerangan, harga, gambar, popular) 

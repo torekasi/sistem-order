@@ -1,82 +1,63 @@
 # Development Record
 
 ## Request
-- Apply power UI/UX design for layout and modals with full field coverage
+- Fix cPanel 500 error on page load
 
 ---
 
 ## Task Checklist
-- [x] Enhanced modal overlay with gradient background and enhanced blur
-- [x] Added slideInUp animation with custom easing for modals
-- [x] Applied glassmorphism gradient backgrounds to navbar and modals
-- [x] Added decorative elements (before pseudo-elements) for visual depth
-- [x] Improved navbar styling with gradient text and enhanced shadows
-- [x] Enhanced navbar links with gradient backgrounds and hover effects
-- [x] Improved modal header with accent bar and gradient title text
-- [x] Enhanced modal close button with rotation hover effect
-- [x] Applied comprehensive form styling in modal-body with increased spacing
-- [x] Enhanced form controls with focus effects and background gradients
-- [x] Improved button styling in modal-footer with minimum widths
-- [x] Enhanced card design with gradient backgrounds and hover effects
-c[x] Fixed edit user modal form structure in users.php
-- [x] Stage all changes and prepare commit
+- [x] Removed typed class property `private PDO $db` from 7 model files (PHP 7.2 compat)
+- [x] Removed typed static property from Logger.php
+- [x] Replaced 3 `match()` expressions with PHP 7.2-compatible alternatives
+- [x] Removed 20 union return types (`int|false`, `array|false`) from 5 model files
+- [x] Changed `session_set_cookie_params()` to PHP 7.2-compatible parameter syntax
+- [x] Added `headers_sent()` guard and expanded CSP in setSecurityHeaders()
+- [x] Added `IfModule mod_rewrite.c` wrapper to both .htaccess files
+- [x] Added PHP version check (7.2+) at both entry points
+- [x] Added try/catch error handling at both entry points
+- [x] Verified all PHP files pass syntax lint
 
 ---
 
 ## Impacted Files
 
 ### UPDATED
--> C:\Users\nefi\Documents\github-project\sistem-order\sistem-order\public\assets\css\style.css
--> C:\Users\nefi\Documents\github-project\sistem-order\sistem-order\views\admin\users.php
+- index.php
+- .config.php
+- .htaccess
+- public/index.php
+- public/.htaccess
+- utils/Logger.php
+- utils/Security.php
+- controllers/AuthController.php
+- models/SalesModel.php
+- models/UserModel.php
+- models/MenuModel.php
+- models/OrderModel.php
+- models/PaymentModel.php
+- models/GroceryModel.php
+- models/SettingsModel.php
+- docs/changelog.md
+- .dev-records/dev.md
 
 ---
 
 ## Summary
-Applied power UI/UX design system across key components:
-1. **Modal Overlay** - Gradient background with saturate(180%) + enhanced blur
-2. **Navbar Glassmorphism** - Gradient background with blur(30px) + decorative elements
-3. **Modal Enhancement** - Full glassmorphism design, slideInUp animation, gradient headers
-4. **Form Field Coverage** - Modal forms now cover all fields with proper padding, spacing, and focus states
-5. **Card Design** - Enhanced with gradient glassmorphism and hover scale effects
-6. **Button Elevation** - Improved visual hierarchy with minimum widths and consistent styling
-
-All modals now feature proper form coverage with full padding and visual hierarchy enhancement.
+Fixed cPanel 500 error caused by PHP 8+ syntax not supported on PHP 7.2-7.3 hosts:
+1. **PHP Syntax Fixes** — Removed all typed properties, union return types, and `match()` expressions
+2. **Apache Config** — Added proper `IfModule` guards in .htaccess files
+3. **Error Handling** — Added try/catch blocks that display graceful 500 pages instead of blank screens
+4. **Session Compatibility** — Replaced array-based session cookie params with positional syntax
+5. **CSP Headers** — Added missing directives and `headers_sent()` guard
 
 ---
 
 ## Security Impact
-- **None** - Purely visual UI/UX enhancements, no security logic changes
--T Design improvements maintain accessibility standards
+- MINIMAL — CSP expanded slightly (added `unsafe-eval`, `blob:`, `connect-src`) for compatibility
+- No authentication or authorization changes
 
 ## Database Impact
-- **None** - No database modifications
+- None
 
-## API Impact  
-.
-
-None** - No API changes
-
-## Affected Modules
-- Admin user management modal interfaces
-- Global navbar and sub-navbar styling
-- Modal overlay system across application
-- Card component styling system
-
----
-
-## Optimization Suggestions
-1. Consider implementing CSS custom properties for animation durations
-2. Add media queries for reduced motion preferences
-3. Test with various browser zoom levels for scalability
-4. Consider performance impact of multiple backdrop-filter effects
-
----
-
-## Development Record Update
-Power UI/UX design system implemented across core components:
-. Enhanced visual hierarchy with gradient glassmorphism
-. Improved motion design with custom easing curves
-. Full modal form field coverage with proper padding
-. Elevation effect consistency across navbar, modals, and cards
-
-Ready for user testing of enhanced visual experience.
+## API Impact
+- None

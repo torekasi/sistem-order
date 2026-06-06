@@ -1,5 +1,18 @@
 # Changelog - Sistem Order
 
+## 2026-06-06
+
+### Fixed
+- **cPanel 500 Error - PHP 7.x Compatibility:** Fixed multiple PHP 8+ syntax causing fatal errors on cPanel hosts running PHP 7.2-7.3:
+  - Removed typed class properties (`private PDO $db`) from all 7 model files
+  - Replaced `match()` expressions with `switch`/array lookup in AuthController and SalesModel
+  - Removed union return types (`int|false`, `array|false`) from 20 functions in 5 model files
+  - Changed `session_set_cookie_params()` from array syntax (PHP 7.3+) to parameter-based syntax
+  - Removed typed static property (`private static string $logDir`) from Logger.php
+- **cPanel 500 Error - Apache/htaccess:** Added `IfModule mod_rewrite.c` wrapper and `Options` directives to both `.htaccess` files to prevent 500 errors when mod_rewrite is not loaded or configured differently
+- **cPanel 500 Error - Security Headers:** Added `headers_sent()` guard to `setSecurityHeaders()`, added `unsafe-eval` and `blob:` to CSP for better compatibility, added `connect-src` directive
+- **cPanel 500 Error - Error Handling:** Added try/catch with graceful error display at both entry points (`index.php` and `public/index.php`), added PHP version check (7.2+ required)
+
 ## 2026-03-22
 
 ### Penambahbaikan Modul Admin, Cashier & Resit

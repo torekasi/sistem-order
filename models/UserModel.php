@@ -9,7 +9,7 @@ require_once BASE_PATH . 'utils/Security.php';
 
 class UserModel {
 
-    private PDO $db;
+    private $db;
 
     public function __construct() {
         $this->db = getDB();
@@ -18,7 +18,7 @@ class UserModel {
     /**
      * Daftar pengguna baru
      */
-    public function register(string $nama, string $email, string $telefon, string $kata_laluan, string $role = 'customer'): int|false {
+    public function register(string $nama, string $email, string $telefon, string $kata_laluan, string $role = 'customer') {
         try {
             $stmt = $this->db->prepare("INSERT INTO users (nama, email, telefon, kata_laluan, role) VALUES (?, ?, ?, ?, ?)");
             $hash = Security::hashPassword($kata_laluan);
@@ -33,7 +33,7 @@ class UserModel {
     /**
      * Login pengguna
      */
-    public function login(string $loginId, string $kata_laluan): array|false {
+    public function login(string $loginId, string $kata_laluan) {
         try {
             $stmt = $this->db->prepare("SELECT * FROM users WHERE (telefon = ? OR email = ?) AND status = 'aktif' LIMIT 1");
             $stmt->execute([$loginId, $loginId]);
@@ -53,7 +53,7 @@ class UserModel {
     /**
      * Dapatkan pengguna berdasarkan ID
      */
-    public function getUserById(int $id): array|false {
+    public function getUserById(int $id) {
         $stmt = $this->db->prepare("SELECT id, nama, email, telefon, role, status, created_at FROM users WHERE id = ?");
         $stmt->execute([$id]);
         return $stmt->fetch();
@@ -62,7 +62,7 @@ class UserModel {
     /**
      * Dapatkan pengguna berdasarkan email
      */
-    public function getUserByEmail(string $email): array|false {
+    public function getUserByEmail(string $email) {
         $stmt = $this->db->prepare("SELECT id, nama, email, telefon, role, status FROM users WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch();
