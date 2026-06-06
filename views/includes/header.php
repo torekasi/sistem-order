@@ -13,6 +13,7 @@ require_once BASE_PATH . 'models/SettingsModel.php';
 $_sModel = new SettingsModel();
 $_storeLogo = $_sModel->get('store_logo', '');
 $_storeName = $_sModel->get('app_name', 'Sistem Order');
+$isAdminRole = $isLoggedIn && in_array($userRole, ['superadmin', 'admin', 'staff', 'cashier']);
 ?>
 <!DOCTYPE html>
 <html lang="ms">
@@ -24,15 +25,17 @@ $_storeName = $_sModel->get('app_name', 'Sistem Order');
     <link rel="stylesheet" href="<?= APP_URL ?>/assets/css/style.css?v=<?= filemtime(BASE_PATH . 'public/assets/css/style.css') ?>">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script>
-function toggleUserDropdown() {
-    document.querySelector('.user-dropdown').classList.toggle('active');
+function toggleUserDropdown(btn) {
+    const dd = btn.closest('.user-dropdown');
+    if (dd) dd.classList.toggle('active');
 }
 
 document.addEventListener('click', function(e) {
-    const dd = document.querySelector('.user-dropdown');
-    if (dd && !dd.contains(e.target)) {
-        dd.classList.remove('active');
-    }
+    document.querySelectorAll('.user-dropdown').forEach(function(dd) {
+        if (!dd.contains(e.target)) {
+            dd.classList.remove('active');
+        }
+    });
 });
 </script>
 </head>
@@ -55,12 +58,32 @@ document.addEventListener('click', function(e) {
             <?php endif; ?>
             <?= htmlspecialchars($_storeName) ?>
         </a>
-        <a href="<?= APP_URL ?>/index.php?page=cart" class="btn btn-cart-nav">
-            <i class="bi bi-cart3"></i>
-            <?php if ($cartCount > 0): ?>
-                <span class="cart-nav-badge"><?= $cartCount ?></span>
+        <div class="navbar-actions">
+            <?php if ($isLoggedIn): ?>
+                <div class="user-dropdown user-dropdown-mobile">
+                    <button class="btn btn-cart-nav user-mobile-trigger" onclick="toggleUserDropdown(this)">
+                        <i class="bi bi-person-circle"></i>
+                    </button>
+                    <div class="user-dropdown-menu mobile-dropdown-menu" id="userDropdownMenu">
+                        <a href="<?= APP_URL ?>/index.php?page=change-password" class="user-dropdown-item">
+                            <i class="bi bi-key"></i> Tukar Kata Laluan
+                        </a>
+                        <div class="user-dropdown-divider"></div>
+                        <a href="<?= APP_URL ?>/index.php?page=logout" class="user-dropdown-item user-dropdown-item-danger">
+                            <i class="bi bi-box-arrow-right"></i> Log Keluar
+                        </a>
+                    </div>
+                </div>
             <?php endif; ?>
-        </a>
+            <?php if (!$isAdminRole): ?>
+                <a href="<?= APP_URL ?>/index.php?page=cart" class="btn btn-cart-nav">
+                    <i class="bi bi-cart3"></i>
+                    <?php if ($cartCount > 0): ?>
+                        <span class="cart-nav-badge"><?= $cartCount ?></span>
+                    <?php endif; ?>
+                </a>
+            <?php endif; ?>
+        </div>
     </div>
 </nav>
 
