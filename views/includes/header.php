@@ -46,14 +46,20 @@ document.addEventListener('click', function(e) {
 
 <!-- Navbar -->
 <nav class="navbar" style="padding-bottom: 0; border-bottom: none;">
-    <div class="container" style="justify-content: flex-start; padding-bottom: 10px;">
+    <div class="container" style="padding-bottom: 10px;">
         <a href="<?= APP_URL ?>/index.php?page=menu" class="navbar-brand">
             <?php if (!empty($_storeLogo)): ?>
-                <img src="<?= APP_URL ?>/assets/uploads/<?= htmlspecialchars($_storeLogo) ?>" alt="Logo" style="height: 32px; border-radius: 4px; object-fit: contain;">
+                <img src="<?= APP_URL ?>/assets/uploads/<?= htmlspecialchars($_storeLogo) ?>" alt="Logo" style="height: 24px; border-radius: 4px; object-fit: contain;">
             <?php else: ?>
                 <span class="brand-icon">🍽️</span>
             <?php endif; ?>
             <?= htmlspecialchars($_storeName) ?>
+        </a>
+        <a href="<?= APP_URL ?>/index.php?page=cart" class="btn btn-cart-nav">
+            <i class="bi bi-cart3"></i>
+            <?php if ($cartCount > 0): ?>
+                <span class="cart-nav-badge"><?= $cartCount ?></span>
+            <?php endif; ?>
         </a>
     </div>
 </nav>
