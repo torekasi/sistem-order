@@ -27,11 +27,17 @@ if (!defined('BOOTED_FROM_ROOT')) {
         Logger::init();
     } catch (\Throwable $e) {
         if (ini_get('display_errors')) {
-            echo '<pre>Bootstrap Error: ' . htmlspecialchars($e->getMessage()) . '</pre>';
+            echo '<div style="background:#1a1a1a;color:#ff4d4d;padding:20px;font-family:sans-serif;border:1px solid #333;margin:20px;border-radius:8px;">';
+            echo '<h3 style="margin-top:0;">Bootstrap Error</h3>';
+            echo '<pre style="background:#000;padding:10px;border-radius:4px;overflow:auto;">' . htmlspecialchars($e->getMessage()) . '</pre>';
+            echo '<small>' . htmlspecialchars($e->getFile()) . ':' . $e->getLine() . '</small>';
+            echo '</div>';
         }
         error_log('Bootstrap Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
         http_response_code(500);
-        echo '<h1>500 - Internal Server Error</h1><p>Please check the error log or contact administrator.</p>';
+        echo '<div style="background:#0f0f14;color:#fff;height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;">';
+        echo '<div><h1 style="color:#ff4d4d;">500</h1><p>Internal Server Error</p><small style="color:#666;">Sila hubungi pentadbir sistem.</small></div>';
+        echo '</div>';
         exit;
     }
 }
@@ -41,8 +47,17 @@ if (!defined('BOOTED_FROM_ROOT')) {
 if (isset($_GET['page'])) {
     $page = Security::sanitize($_GET['page']);
 } else {
-    // Extract path dari REQUEST_URI
-    $uri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
+    // Extract path dari REQUEST_URI dan bersihkan sub-direktori
+    $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+    $requestUri = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/';
+    
+    // Buang scriptDir dari requestUri jika ada (untuk sokongan sub-direktori cPanel)
+    if ($scriptDir !== '/' && strpos($requestUri, $scriptDir) === 0) {
+        $uri = substr($requestUri, strlen($scriptDir));
+    } else {
+        $uri = $requestUri;
+    }
+
     $uri = trim($uri, '/');
     $page = $uri !== '' && $uri !== 'index.php' ? Security::sanitize($uri) : 'menu';
 }
@@ -148,24 +163,35 @@ try {
                 $controller->$method();
             } else {
                 http_response_code(404);
-                echo '<h1>404 - Kaedah tidak ditemui</h1>';
+                echo '<div style="background:#0f0f14;color:#fff;height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;">';
+                echo '<div><h1 style="color:#ffcc00;">404</h1><p>Kaedah tidak ditemui</p><a href="' . url('menu') . '" style="color:#0af;text-decoration:none;">Kembali ke Menu</a></div>';
+                echo '</div>';
                 Logger::error("Method not found: {$route['controller']}::{$method}");
             }
         } else {
             http_response_code(404);
-            echo '<h1>404 - Controller tidak ditemui</h1>';
+            echo '<div style="background:#0f0f14;color:#fff;height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;">';
+            echo '<div><h1 style="color:#ffcc00;">404</h1><p>Controller tidak ditemui</p><a href="' . url('menu') . '" style="color:#0af;text-decoration:none;">Kembali ke Menu</a></div>';
+            echo '</div>';
             Logger::error("Controller not found: {$controllerFile}");
         }
     } else {
         http_response_code(404);
-        echo '<h1>404 - Halaman tidak ditemui</h1>';
+        echo '<div style="background:#0f0f14;color:#fff;height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;">';
+        echo '<div><h1 style="color:#ffcc00;">404</h1><p>Halaman tidak ditemui</p><a href="' . url('menu') . '" style="color:#0af;text-decoration:none;">Kembali ke Menu</a></div>';
+        echo '</div>';
     }
 } catch (\Throwable $e) {
     if (ini_get('display_errors')) {
-        echo '<pre>Runtime Error: ' . htmlspecialchars($e->getMessage()) . "\n";
-        echo 'File: ' . htmlspecialchars($e->getFile()) . ':' . $e->getLine() . '</pre>';
+        echo '<div style="background:#1a1a1a;color:#ff4d4d;padding:20px;font-family:sans-serif;border:1px solid #333;margin:20px;border-radius:8px;">';
+        echo '<h3 style="margin-top:0;">Runtime Error</h3>';
+        echo '<pre style="background:#000;padding:10px;border-radius:4px;overflow:auto;">' . htmlspecialchars($e->getMessage()) . '</pre>';
+        echo '<small>' . htmlspecialchars($e->getFile()) . ':' . $e->getLine() . '</small>';
+        echo '</div>';
     }
     error_log('Runtime Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     http_response_code(500);
-    echo '<h1>500 - Internal Server Error</h1><p>An unexpected error occurred. Please try again later.</p>';
+    echo '<div style="background:#0f0f14;color:#fff;height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;">';
+    echo '<div><h1 style="color:#ff4d4d;">500</h1><p>Internal Server Error</p><small style="color:#666;">Ralat sistem dikesan. Sila cuba sebentar lagi.</small></div>';
+    echo '</div>';
 }

@@ -25,10 +25,15 @@ try {
     require_once BASE_PATH . 'public/index.php';
 } catch (\Throwable $e) {
     if (ini_get('display_errors')) {
-        echo '<pre>Fatal Error: ' . htmlspecialchars($e->getMessage()) . "\n\n";
-        echo 'File: ' . htmlspecialchars($e->getFile()) . ':' . $e->getLine() . '</pre>';
+        echo '<div style="background:#1a1a1a;color:#ff4d4d;padding:20px;font-family:sans-serif;border:1px solid #333;margin:20px;border-radius:8px;">';
+        echo '<h3 style="margin-top:0;">Root Entry Error</h3>';
+        echo '<pre style="background:#000;padding:10px;border-radius:4px;overflow:auto;">' . htmlspecialchars($e->getMessage()) . '</pre>';
+        echo '<small>' . htmlspecialchars($e->getFile()) . ':' . $e->getLine() . '</small>';
+        echo '</div>';
     }
     error_log('Fatal Error: ' . $e->getMessage() . ' in ' . $e->getFile() . ':' . $e->getLine());
     http_response_code(500);
-    echo '<h1>500 - Internal Server Error</h1><p>Please check the error log or contact administrator.</p>';
+    echo '<div style="background:#0f0f14;color:#fff;height:100vh;display:flex;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;">';
+    echo '<div><h1 style="color:#ff4d4d;">500</h1><p>Internal Server Error</p><small style="color:#666;">Sila hubungi pentadbir sistem.</small></div>';
+    echo '</div>';
 }
