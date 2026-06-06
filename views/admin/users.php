@@ -92,88 +92,92 @@ $roleBadges = [
 
 <!-- Modal Add User -->
 <div class="modal-overlay" id="modalAddUser">
-    <div class="modal-content">
+    <div class="modal">
         <div class="modal-header">
             <h3>Tambah Pengguna Baru</h3>
             <button type="button" class="modal-close" onclick="closeModal('modalAddUser')">&times;</button>
         </div>
-        <form method="POST" action="<?= APP_URL ?>/index.php?page=add-user">
-            <?= Security::csrfField() ?>
-            <div class="form-group">
-                <label class="fw-bold">Nama Penuh</label>
-                <input type="text" name="nama" class="form-control" placeholder="Masukkan nama pengguna" required>
-            </div>
-            <div class="form-group">
-                <label class="fw-bold">Email</label>
-                <input type="email" name="email" class="form-control" placeholder="pengguna@example.com" required>
-            </div>
-            <div class="form-group">
-                <label class="fw-bold">Nombor Telefon</label>
-                <input type="text" name="telefon" class="form-control" placeholder="60123456789" required>
-            </div>
-            <div class="form-group">
-                <label class="fw-bold">Peranan</label>
-                <select name="role" class="form-control">
-                    <option value="superadmin">Super Admin</option>
-                    <option value="admin">Admin</option>
-                    <option value="staff">Staff</option>
-                    <option value="cashier">Cashier</option>
-                    <option value="customer">Pelanggan</option>
-                    <option value="buyer">Tukang Pasar</option>
-                </select>
-            </div>
-            <div class="form-group mt-1">
-                <label class="fw-bold">Status</label>
-                <select name="status" class="form-control">
-                    <option value="aktif" selected>Aktif</option>
-                    <option value="tidak_aktif">Tidak Aktif</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label class="fw-bold">Kata Laluan (min 6 aksara)</label>
-                <input type="password" name="kata_laluan" class="form-control" placeholder="Kata laluan pengguna" required>
-            </div>
-            <div class="d-flex gap-1 mt-2">
-                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Tambah Pengguna</button>
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalAddUser')">Batal</button>
-            </div>
-        </form>
+        <div class="modal-body">
+            <form method="POST" action="<?= APP_URL ?>/index.php?page=add-user">
+                <?= Security::csrfField() ?>
+                <div class="form-group">
+                    <label class="fw-bold">Nama Penuh</label>
+                    <input type="text" name="nama" class="form-control" placeholder="Masukkan nama pengguna" required>
+                </div>
+                <div class="form-group">
+                    <label class="fw-bold">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="pengguna@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="fw-bold">Nombor Telefon</label>
+                    <input type="text" name="telefon" class="form-control" placeholder="60123456789" required>
+                </div>
+                <div class="form-group">
+                    <label class="fw-bold">Peranan</label>
+                    <select name="role" class="form-control">
+                        <option value="superadmin">Super Admin</option>
+                        <option value="admin">Admin</option>
+                        <option value="staff">Staff</option>
+                        <option value="cashier">Cashier</option>
+                        <option value="customer">Pelanggan</option>
+                        <option value="buyer">Tukang Pasar</option>
+                    </select>
+                </div>
+                <div class="form-group mt-1">
+                    <label class="fw-bold">Status</label>
+                    <select name="status" class="form-control">
+                        <option value="aktif" selected>Aktif</option>
+                        <option value="tidak_aktif">Tidak Aktif</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="fw-bold">Kata Laluan (min 6 aksara)</label>
+                    <input type="password" name="kata_laluan" class="form-control" placeholder="Kata laluan pengguna" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Tambah Pengguna</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalAddUser')">Batal</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
 <!-- Modal Edit User -->
 <div class="modal-overlay" id="modalEditUser">
-    <div class="modal-content">
+    <div class="modal">
         <div class="modal-header">
             <h3 id="editUserTitle">Edit Pengguna</h3>
             <button type="button" class="modal-close" onclick="closeModal('modalEditUser')">&times;</button>
         </div>
-        <form method="POST" action="<?= APP_URL ?>/index.php?page=update-user-role">
-            <?= Security::csrfField() ?>
-            <input type="hidden" name="user_id" id="editUserId">
-            <div class="form-group">
-                <label class="fw-bold">Peranan</label>
-                <select name="role" id="editUserRole" class="form-control">
-                    <option value="superadmin">Super Admin</option>
-                    <option value="admin">Admin</option>
-                    <option value="staff">Staff</option>
-                    <option value="cashier">Cashier</option>
-                    <option value="customer">Pelanggan</option>
-                    <option value="buyer">Tukang Pasar</option>
-                </select>
-            </div>
-            <div class="form-group mt-1">
-                <label class="fw-bold">Status</label>
-                <select name="status" id="editUserStatus" class="form-control">
-                    <option value="aktif">Aktif</option>
-                    <option value="tidak_aktif">Tidak Aktif</option>
-                </select>
-            </div>
-            <div class="d-flex gap-1 mt-2">
-                <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Simpan</button>
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditUser')">Batal</button>
-            </div>
-        </form>
+        <div class="modal-body">
+            <form method="POST" action="<?= APP_URL ?>/index.php?page=update-user-role">
+                <?= Security::csrfField() ?>
+                <input type="hidden" name="user_id" id="editUserId">
+                <div class="form-group">
+                    <label class="fw-bold">Peranan</label>
+                    <select name="role" id="editUserRole" class="form-control">
+                        <option value="superadmin">Super Admin</option>
+                        <option value="admin">Admin</option>
+                        <option value="staff">Staff</option>
+                        <option value="cashier">Cashier</option>
+                        <option value="customer">Pelanggan</option>
+                        <option value="buyer">Tukang Pasar</option>
+                    </select>
+                </div>
+                <div class="form-group mt-1">
+                    <label class="fw-bold">Status</label>
+                    <select name="status" id="editUserStatus" class="form-control">
+                        <option value="aktif">Aktif</option>
+                        <option value="tidak_aktif">Tidak Aktif</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Simpan</button>
+            <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditUser')">Batal</button>
+        </div>
     </div>
 </div>
 
