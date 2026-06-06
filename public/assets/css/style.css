@@ -758,8 +758,7 @@ tr:hover td {
     border-radius: var(--radius-lg);
     width: 90%;
     max-width: 500px;
-    max-height: 85vh;
-    overflow-y: auto;
+    max-height: 90vh;
     animation: scaleIn 0.3s ease;
 }
 
