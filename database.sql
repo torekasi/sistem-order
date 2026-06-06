@@ -19,7 +19,7 @@ CREATE TABLE users (
     email VARCHAR(150) NOT NULL UNIQUE,
     telefon VARCHAR(20) DEFAULT NULL,
     kata_laluan VARCHAR(255) NOT NULL,
-    role ENUM('superadmin', 'admin', 'staff', 'customer', 'buyer') NOT NULL DEFAULT 'customer',
+    role ENUM('superadmin', 'admin', 'staff', 'cashier', 'customer', 'buyer') NOT NULL DEFAULT 'customer',
     status ENUM('aktif', 'tidak_aktif') NOT NULL DEFAULT 'aktif',
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

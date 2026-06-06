@@ -255,6 +255,92 @@ class ConfigController {
     }
 
     /**
+     * Tambah pengguna baru (admin only)
+     */
+    public function addUser(): void {
+        Security::requireRole('superadmin', 'admin');
+
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            exit;
+        }
+
+        if (!Security::validateCSRFToken($_POST[CSRF_TOKEN_NAME] ?? '')) {
+            $_SESSION['error'] = 'Token keselamatan tidak sah.';
+            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            exit;
+        }
+
+        $nama = Security::sanitize($_POST['nama'] ?? '');
+        $email = Security::sanitizeEmail($_POST['email'] ?? '');
+        $telefon = Security::sanitize($_POST['telefon'] ?? '');
+        $kata_laluan = $_POST['kata_laluan'] ?? '';
+        $role = Security::sanitize($_POST['role'] ?? 'customer');
+        $status = Security::sanitize($_POST['status'] ?? 'aktif');
+
+        // Validasi input
+        $errors = [];
+        if (empty($nama)) $errors[] = 'Nama diperlukan.';
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = 'Email tidak sah.';
+        if (empty($telefon)) $errors[] = 'Nombor telefon diperlukan.';
+        if (strlen($kata_laluan) < 6) $errors[] = 'Kata laluan mestilah sekurang-kurangnya 6 aksara.';
+
+        $validRoles = ['superadmin', 'admin', 'staff', 'cashier', 'customer', 'buyer'];
+        if (!in_array($role, $validRoles)) {
+            $errors[] = 'Peranan tidak sah.';
+        }
+
+        $currentUserRole = Security::currentUserRole();
+
+        // Admin tidak boleh membuat superadmin / admin
+        if ($currentUserRole !== 'superadmin') {
+            if (in_array($role, ['superadmin', 'admin'])) {
+                $_SESSION['error'] = 'Akses ditolak. Anda tidak boleh membuat akaun Super Admin atau Admin.';
+                header('Location: ' . APP_URL . '/index.php?page=manage-users');
+                exit;
+            }
+        }
+
+        if (!empty($errors)) {
+            $_SESSION['error'] = implode('<br>', $errors);
+            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            exit;
+        }
+
+        $userModel = new UserModel();
+
+        // Semak email sudah wujud
+        if ($userModel->emailExists($email)) {
+            $_SESSION['error'] = 'Email sudah digunakan oleh akaun lain.';
+            header('Location: ' . APP_URL . '/index.php?page=manage-users');
+            exit;
+        }
+
+        // Use UserModel::register method which already handles password hashing
+        $userId = $userModel->register($nama, $email, $telefon, $kata_laluan, $role);
+        
+        if ($userId) {
+            // Update status if not default
+            if ($status !== 'aktif') {
+                $userModel->updateUser($userId, ['status' => $status]);
+            }
+            
+            $_SESSION['success'] = 'Pengguna berjaya ditambah.';
+            Logger::admin("Tambah pengguna baru", [
+                'user_id' => Security::currentUserId(),
+                'target_email' => $email,
+                'role' => $role,
+                'status' => $status
+            ]);
+        } else {
+            $_SESSION['error'] = 'Gagal menambah pengguna. Sila cuba lagi.';
+        }
+
+        header('Location: ' . APP_URL . '/index.php?page=manage-users');
+        exit;
+    }
+
+    /**
      * Test sambungan DB (AJAX)
      */
     public function testConnection(): void {

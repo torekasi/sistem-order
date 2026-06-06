@@ -110,6 +110,7 @@ $routes = [
     'manage-users'       => ['controller' => 'ConfigController',  'action' => 'manageUsers'],
     'update-user-role'   => ['controller' => 'ConfigController',  'action' => 'updateUserRole'],
     'delete-user'        => ['controller' => 'ConfigController',  'action' => 'deleteUser'],
+    'add-user'           => ['controller' => 'ConfigController',  'action' => 'addUser'],
     'csrf-token'         => ['controller' => 'AuthController',    'action' => 'getCsrfToken'],
 ];
 
