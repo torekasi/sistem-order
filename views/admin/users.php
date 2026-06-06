@@ -172,11 +172,11 @@ $roleBadges = [
                         <option value="tidak_aktif">Tidak Aktif</option>
                     </select>
                 </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Simpan</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditUser')">Batal</button>
+                </div>
             </form>
-        </div>
-        <div class="modal-footer">
-            <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle"></i> Simpan</button>
-            <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditUser')">Batal</button>
         </div>
     </div>
 </div>
